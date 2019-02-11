@@ -1,0 +1,26 @@
+
+nkr_user: nkr-user
+nkr_app_name: nkr-proxy
+nkr_proxy_app_base_path: "/usr/local/{{ nkr_app_name }}"
+python_virtualenv_path: "{{ nkr_proxy_app_base_path }}/venv"
+
+
+httpd:
+    conf_user: apache
+    conf_group: apache
+    conf_loglevel: debug
+
+    server_domain_name: nkr-proxy.csc.local
+    listen_port: 443
+
+    ssl_certificates_path: "{{ httpd24_conf_root_path }}/certificates"
+    ssl_certificate_name: proxy-selfsigned.crt
+    ssl_key_name: proxy-selfsigned.key
+    dh_param_name: proxy_dhparam.pem
+
+    oidc_provider_metadata_url: todo
+    oidc_auth_verify_jwks_uri: todo
+    oidc_client_id: todo
+    oidc_client_secret: todo
+    oidc_crypto_passphrase: todo
+    oidc_id_token_iat_slack: todo

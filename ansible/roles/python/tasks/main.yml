@@ -1,0 +1,50 @@
+
+- name: Is python36u installed?
+  stat: path=/usr/bin/python3.6
+  register: python36u_installed
+
+- name: Is rh-python36 installed?
+  stat: path=/opt/rh/rh-python36/root/usr/bin/python3
+  register: rh_python36_installed
+
+- name: Create virtual environment directory for Python to {{ python_virtualenv_path }}
+  file: path={{ python_virtualenv_path }} state=directory owner={{ owner_user }} group={{ owner_group }} mode=0755
+
+- block:
+
+    - name: Install IUS
+      yum: name=https://centos7.iuscommunity.org/ius-release.rpm
+      when: deployment_environment_id == 'local_development'
+
+    - name: Install Python 3.6
+      yum:
+        state: latest
+        name:
+          - python36u
+          - python36u-pip
+          - python36u-devel
+      when: deployment_environment_id == 'local_development'
+
+    - name: Install Python 3.6
+      yum: name=rh-python36 state=latest
+      when: deployment_environment_id != 'local_development'
+
+    - name: Create virtual environment directory for Python to {{ python_virtualenv_path }}
+      file: path={{ python_virtualenv_path }} state=directory owner={{ owner_user }} group={{ owner_group }} mode=0755
+
+    - name: Install virtual environment for Python to {{ python_virtualenv_path }}
+      command: /usr/bin/python3.6 -m venv {{ python_virtualenv_path }}
+      when: deployment_environment_id == 'local_development'
+
+    - name: Install virtual environment for Python to {{ python_virtualenv_path }}
+      command: /opt/rh/rh-python36/root/usr/bin/python3 -m venv {{ python_virtualenv_path }}
+      when: deployment_environment_id != 'local_development'
+
+  when: not python36u_installed.stat.exists and not rh_python36_installed.stat.exists
+
+- name: Set owner of pyvenv to {{ owner_user }} user
+  file: path={{ python_virtualenv_path }} owner={{ owner_user }} group={{ owner_group }} recurse=yes mode=0755
+
+- name: install wheel python package to enable using pip for installing requirements as user {{ owner_user }}
+  pip: name=wheel virtualenv={{ python_virtualenv_path }}
+  become_user: "{{ owner_user }}"

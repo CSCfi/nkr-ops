@@ -1,0 +1,58 @@
+---
+
+- name: Install centos-release-scl software collections
+  yum: name=centos-release-scl
+  # why was this 'when' clause in metax?
+  # when: deployment_environment_id == 'local_development'
+
+# the standard httpd package has to be installed, since it contains some
+# modules that are not availble for httpd24. those modules are symlinked
+# httpd24 conf dirs as needed.
+- name: Install vanilla httpd in order to get make some modules available
+  yum: name=httpd state=latest
+
+- name: Install httpd24
+  yum: name=httpd24-httpd state=latest
+
+- name: Install httpd24-mod_ssl
+  yum: name=httpd24-mod_ssl state=latest
+
+- name: Change listening to port 80 to port 443 in main httpd conf
+  lineinfile:
+    dest: "{{ httpd24_conf_root_path }}/conf/httpd.conf"
+    state: present
+    regexp: '^#?\s?Listen 80'
+    line: "Listen 443"
+
+# role apache-virtualhost appends new specific "IncludeOptional conf.d/myconf.conf"
+# lines into the main httpd.conf file
+- name: Disable loading all confs from conf.d/
+  lineinfile:
+    dest: "{{ httpd24_conf_root_path }}/conf/httpd.conf"
+    state: present
+    regexp: "IncludeOptional conf.d/\\*\\.conf"
+    line: "# IncludeOptional conf.d/*.conf"
+
+# add a very basic virtualhost config, so that the httpd service can be restarted,
+# and correctness of the basic httpd configuration is verified
+- name: Copy custom httpd conf file
+  template: src=templates/custom_httpd.conf dest="{{ httpd24_conf_root_path }}/conf.d/default.conf"
+  notify: restart httpd24
+
+- name: Load default conf from conf.d so that httpd24 can be restarted
+  lineinfile:
+    dest: "{{ httpd24_conf_root_path }}/conf/httpd.conf"
+    state: present
+    line: "IncludeOptional conf.d/default.conf"
+
+- name: Set vanilla httpd service to not auto-restart
+  lineinfile:
+    path: /usr/lib/systemd/system/httpd.service
+    state: present
+    line: 'Restart=no'
+
+- name: Ensure vanilla httpd is stopped
+  service: name=httpd enabled=no state=stopped
+
+- name: Restart httpd24
+  service: name=httpd24-httpd enabled=yes state=restarted

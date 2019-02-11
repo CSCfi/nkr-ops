@@ -1,0 +1,7 @@
+server_ip: 127.0.0.1
+
+deployment_environment_id: local_development
+shared_folder_base_path: /shared
+httpd24_conf_root_path: /opt/rh/httpd24/root/etc/httpd
+
+project_repo_branch: test

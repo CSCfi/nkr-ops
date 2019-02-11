@@ -1,0 +1,6 @@
+---
+
+- name: restart httpd24
+  service:
+    name: httpd24-httpd
+    state: restarted

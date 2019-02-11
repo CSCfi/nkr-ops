@@ -1,0 +1,21 @@
+
+nkr_app_name: nkr-index
+
+
+solr:
+    port: "8983"
+    version: "6.2.0"
+
+
+httpd:
+    conf_user: apache
+    conf_group: apache
+    conf_loglevel: debug
+
+    server_domain_name: nkr-index.csc.local
+    listen_port: 443
+
+    ssl_certificates_path: "{{ httpd24_conf_root_path }}/certificates"
+    ssl_certificate_name: index-selfsigned.crt
+    ssl_key_name: index-selfsigned.key
+    dh_param_name: index_dhparam.pem

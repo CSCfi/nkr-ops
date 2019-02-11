@@ -1,0 +1,15 @@
+---
+
+- name: Install mod_auth_openidc from centos standard repository
+  yum: name=mod_auth_openidc state=latest
+
+- name: Link mod_auth_openidc to custom httpd24 modules location
+  file:
+    src: '/etc/httpd/modules/mod_auth_openidc.so'
+    dest: '{{ httpd24_conf_root_path }}/modules/mod_auth_openidc.so'
+    state: link
+
+- include_role:
+    name: apache-virtualhost
+  vars:
+      template_path: ../provision_proxy/templates/custom_httpd.conf

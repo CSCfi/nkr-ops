@@ -1,0 +1,8 @@
+---
+
+- hosts: proxyservers
+  become: yes
+  roles:
+    - { role: os-base, when: "deployment_environment_id != 'local_development'" }
+    - { role: apache, when: "deployment_environment_id != 'local_development'" }
+    - provision_proxy

@@ -1,0 +1,16 @@
+---
+
+- include_role: name=certificates
+
+- name: Generate Diffie-Hellman PFS (Perfect Forward Secrecy) group
+  command: openssl dhparam -out {{ httpd.ssl_certificates_path }}/{{ httpd.dh_param_name }} 2048 creates={{ httpd.ssl_certificates_path }}/{{ httpd.dh_param_name }}
+
+- name: Ensure main httpd.conf loads custom httpd conf from conf.d
+  lineinfile:
+    dest: "{{ httpd24_conf_root_path }}/conf/httpd.conf"
+    state: present
+    line: "IncludeOptional conf.d/{{ nkr_app_name }}.conf"
+
+- name: Copy {{ nkr_app_name }} custom httpd conf file
+  template: src={{ template_path }} dest="{{ httpd24_conf_root_path }}/conf.d/{{ nkr_app_name }}.conf"
+  notify: restart httpd24

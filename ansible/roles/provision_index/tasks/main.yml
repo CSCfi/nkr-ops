@@ -1,0 +1,8 @@
+
+- include_role:
+    name: solr
+
+- include_role:
+    name: apache-virtualhost
+  vars:  
+      template_path: ../provision_index/templates/custom_httpd.conf

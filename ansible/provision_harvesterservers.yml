@@ -1,0 +1,6 @@
+---
+
+- hosts: harvesterservers
+  become: yes
+  roles:
+    - { role: os-base, when: "deployment_environment_id != 'local_development'" }

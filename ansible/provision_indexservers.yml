@@ -1,0 +1,8 @@
+---
+
+- hosts: indexservers
+  become: yes
+  roles:
+    - os-base
+    - apache
+    - provision_index

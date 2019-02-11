@@ -1,0 +1,4 @@
+The role apache-virtualhost does not use its own templates. The role
+adds new VirtualHosts to an existing apache-installation, and the path
+to the used httpd virtualhost conf file should be provided in a variable
+called template_path.

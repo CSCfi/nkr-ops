@@ -1,0 +1,13 @@
+[indexservers]
+nkr-index-local ansible_host="{{ server_ip }}" ansible_connection=local ansible_user=vagrant
+
+[proxyservers]
+nkr-proxy-local ansible_host="{{ server_ip }}" ansible_connection=local ansible_user=vagrant
+
+[harvesterservers]
+nkr-harvester-local ansible_host="{{ server_ip }}" ansible_connection=local ansible_user=vagrant
+
+[local_development:children]
+indexservers
+proxyservers
+harvesterservers
