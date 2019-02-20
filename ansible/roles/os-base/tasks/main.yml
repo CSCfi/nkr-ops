@@ -100,4 +100,4 @@
 
 #   when: deployment_environment_id in ['local_development', 'test', 'stable']
 
-- include_role: name=update_packages
+#- include_role: name=update_packages
