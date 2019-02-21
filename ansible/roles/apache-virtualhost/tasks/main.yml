@@ -2,6 +2,20 @@
 
 - include_role: name=certificates
 
+- name: Install python-passlib as a dependency for htpasswd ansible module
+  yum: name=python-passlib state=latest
+
+- name: Create Basic Authentication users file
+  htpasswd:
+    path: "{{ httpd.ba_users_file }}"
+    name: "{{ item.username }}"
+    password: "{{ item.password }}"
+    owner: "{{ httpd.conf_user }}"
+    group: "{{ httpd.conf_group }}"
+    state: present
+    mode: 0400
+  with_items: "{{ httpd.ba_users }}"
+
 - name: Generate Diffie-Hellman PFS (Perfect Forward Secrecy) group
   command: openssl dhparam -out {{ httpd.ssl_certificates_path }}/{{ httpd.dh_param_name }} 2048 creates={{ httpd.ssl_certificates_path }}/{{ httpd.dh_param_name }}
 
@@ -14,3 +28,8 @@
 - name: Copy {{ nkr_app_name }} custom httpd conf file
   template: src={{ template_path }} dest="{{ httpd24_conf_root_path }}/conf.d/{{ nkr_app_name }}.conf"
   notify: restart httpd24
+
+# https://github.com/ansible/ansible/issues/37512
+# does not seem to fixed in this centos version yet.
+- name: Restart httpd24 manually due to bug with 'notify' module in included roles
+  service: name=httpd24-httpd state=restarted enabled=yes

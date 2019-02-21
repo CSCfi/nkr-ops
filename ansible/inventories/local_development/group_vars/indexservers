@@ -16,6 +16,10 @@ httpd:
     listen_port: 443
 
     ssl_certificates_path: "{{ httpd24_conf_root_path }}/certificates"
-    ssl_certificate_name: index-selfsigned.crt
-    ssl_key_name: index-selfsigned.key
-    dh_param_name: index_dhparam.pem
+    ssl_certificate_name: "{{ nkr_app_name }}-selfsigned.crt"
+    ssl_key_name: "{{ nkr_app_name }}-selfsigned.key"
+    dh_param_name: "{{ nkr_app_name }}_dhparam.pem"
+
+    ba_users_file: "{{ httpd24_conf_root_path }}/{{ nkr_app_name }}_users"
+    ba_users:
+        - { username: nkr-proxy, password: nkr-proxy-test }

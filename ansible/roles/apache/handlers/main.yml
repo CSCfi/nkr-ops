@@ -4,3 +4,4 @@
   service:
     name: httpd24-httpd
     state: restarted
+    enabled: yes
