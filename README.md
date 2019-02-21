@@ -8,10 +8,6 @@ Ansible-scripts to deploy NKR index to remote machines and local development (va
 ```
 clone https://github.com/CSCfi/nkr-ops
 cd nkr-ops
-mkdir nkr-proxy
-cd ansible
-./install_requirements.sh
-cd -
 vagrant up
 vagrant ssh
 ```

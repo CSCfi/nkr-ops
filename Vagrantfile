@@ -33,12 +33,12 @@ Vagrant.configure("2") do |config|
     server.vm.network :private_network, ip: "30.30.30.30"
 
     # Basic VM synced folder mount
-    # server.vm.synced_folder "./nkr-index", "/shared/nkr-index", :mount_options => ["dmode=777,fmode=777"]
-    # server.vm.synced_folder "./nkr-harvester", "/shared/nkr-harvester", :mount_options => ["dmode=777,fmode=777"]
-    server.vm.synced_folder "./nkr-proxy", "/shared/nkr-proxy", :mount_options => ["dmode=777,fmode=777"]
     server.vm.synced_folder "./ansible", "/shared/ansible", :mount_options => ["dmode=775,fmode=775"]
 
     server.vm.provision "shell", inline: $script
+    # server.vm.synced_folder "./nkr-index", "/shared/nkr-index", :mount_options => ["dmode=777,fmode=777"]
+    # server.vm.synced_folder "./nkr-harvester", "/shared/nkr-harvester", :mount_options => ["dmode=777,fmode=777"]
+    # server.vm.synced_folder "./nkr-proxy", "/shared/nkr-proxy", :mount_options => ["dmode=777,fmode=777"]
 
     server.vm.provider "virtualbox" do |vbox|
         vbox.name = "nkr_local_development"

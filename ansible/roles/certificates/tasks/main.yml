@@ -22,7 +22,7 @@
 
     - name: Concatenate intermediate certificate to primary certificate
       lineinfile:
-        line: "{{ lookup('file', 'files/certificates/{{ intermediate_certificate_name }}') }}"
+        line: "{{ lookup('file', 'files/certificates/{{ httpd.intermediate_certificate_name }}') }}"
         dest: "{{ httpd.ssl_certificates_path }}/{{ httpd.ssl_certificate_name }}"
         state: present
 

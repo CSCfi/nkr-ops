@@ -17,11 +17,17 @@
 - name: Install httpd24-mod_ssl
   yum: name=httpd24-mod_ssl state=latest
 
-- name: Change listening to port 80 to port 443 in main httpd conf
+- name: Disable listening to port 80 in main httpd conf
   lineinfile:
     dest: "{{ httpd24_conf_root_path }}/conf/httpd.conf"
     state: present
     regexp: '^#?\s?Listen 80'
+    line: "# Listen 80"
+
+- name: Listen to port 443 in main httpd conf
+  lineinfile:
+    dest: "{{ httpd24_conf_root_path }}/conf/httpd.conf"
+    state: present
     line: "Listen 443"
 
 # role apache-virtualhost appends new specific "IncludeOptional conf.d/myconf.conf"
