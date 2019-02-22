@@ -22,4 +22,4 @@ httpd:
 
     ba_users_file: "{{ httpd24_conf_root_path }}/{{ nkr_app_name }}_users"
     ba_users:
-        - { username: nkr-proxy, password: nkr-proxy-test }
+        - { username: nkr-index, password: nkr-index }

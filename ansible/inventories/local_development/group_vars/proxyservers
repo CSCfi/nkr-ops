@@ -20,7 +20,7 @@ httpd:
 
     ba_users_file: "{{ httpd24_conf_root_path }}/{{ nkr_app_name }}_users"
     ba_users:
-        - { username: teppo, password: testaaja }
+        - { username: nkr-proxy, password: nkr-proxy }
 
     oidc_provider_metadata_url: todo
     oidc_auth_verify_jwks_uri: todo

@@ -21,3 +21,9 @@ Edit your local /etc/hosts file to add:
 
 Then, solr ui at: nkr-index.csc.local
 And authz proxy at: nkr-proxy.csc.local
+
+### authentication in local dev
+
+nkr-index BA credentials: nkr-index / nkr-index
+
+nkr-proxy BA credentials: nkr-proxy / nkr-proxy
