@@ -1,0 +1,17 @@
+
+# server IP addresses
+
+server_1_external_ip: 86.50.168.34
+server_2_external_ip: 86.50.168.65
+server_3_external_ip: x.y.z.a
+
+indexserver_1_external_ip: "{{ server_1_external_ip }}"
+proxyserver_1_external_ip: "{{ server_2_external_ip }}"
+harvester_1_external_ip: "{{ server_3_external_ip }}"
+
+# other
+
+deployment_environment_id: test
+project_repo_branch: test
+
+httpd24_conf_root_path: /opt/rh/httpd24/root/etc/httpd

@@ -1,0 +1,14 @@
+
+[indexservers]
+nkr-index-1 ansible_host="{{ indexserver_1_external_ip }}" ansible_connection=ssh ansible_user="{{ ssh_user }}"
+
+[proxyservers]
+nkr-proxy-1 ansible_host="{{ proxyserver_1_external_ip }}" ansible_connection=ssh ansible_user="{{ ssh_user }}"
+
+[harvesterservers]
+nkr-harvester-1 ansible_host="{{ harvester_1_external_ip }}" ansible_connection=ssh ansible_user="{{ ssh_user }}"
+
+[test:children]
+indexservers
+proxyservers
+harvesterservers

@@ -1,0 +1,31 @@
+---
+
+- name: Copy gunicorn config file
+  template: src=templates/gunicorn_conf.py dest=/etc/gunicorn.py
+
+- name: Create gunicorn logging directory
+  file: path=/var/log/gunicorn state=directory owner={{ owner_user }} group={{ owner_group }}
+
+- name: Create gunicorn log files and ensure file permissions
+  copy: content="" dest=/var/log/gunicorn/{{ item }}.log force=no owner={{ owner_user }} group={{ owner_group }} mode=0755
+  with_items:
+    - gunicorn
+    - gunicorn_error
+
+- name: Create logrotate entry for gunicorn log file
+  template: src=templates/logrotate_gunicorn dest=/etc/logrotate.d/gunicorn
+
+- name: Create {{ app_base_path }}/gunicorn for Gunicorn socket and PID
+  file: path={{ app_base_path }}/gunicorn state=directory owner={{ owner_user }} group={{ owner_user }} mode=0755
+
+- name: Copy gunicorn service file
+  template: src=templates/gunicorn.service dest=/usr/lib/systemd/system/gunicorn.service
+
+- name: Copy gunicorn socket file
+  template: src=templates/gunicorn.socket dest=/usr/lib/systemd/system/gunicorn.socket
+
+- name: Systemctl daemon-reload
+  shell: "systemctl daemon-reload"
+
+- name: Restart gunicorn
+  service: name=gunicorn state=restarted enabled=yes

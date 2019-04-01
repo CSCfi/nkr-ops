@@ -1,9 +1,18 @@
 
 nkr_user: nkr-user
 nkr_app_name: nkr-proxy
+
 nkr_proxy_app_base_path: "/usr/local/{{ nkr_app_name }}"
+nkr_proxy_app_repo_path: "/usr/local/{{ nkr_app_name }}/{{ nkr_app_name }}"
+nkr_proxy_web_app_src_path: "{{ nkr_proxy_app_repo_path }}/src"
 python_virtualenv_path: "{{ nkr_proxy_app_base_path }}/venv"
 
+project_repo: https://github.com/CSCfi/nkr-proxy
+project_repo_branch: test
+# nkr_app_log_file: "{{ nkr_app_name }}.log"
+# nkr_app_log_file_json: "{{ nkr_app_name }}.json.log"
+
+gunicorn_socket_file: "{{ nkr_proxy_app_base_path }}/gunicorn/socket"
 
 httpd:
     conf_user: apache

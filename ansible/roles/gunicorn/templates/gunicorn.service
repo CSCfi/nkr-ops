@@ -1,0 +1,17 @@
+[Unit]
+Description=Gunicorn application server handling {{ app_name }}
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+PIDFile={{ app_base_path }}/gunicorn/pid
+User={{ app_user }}
+Group={{ app_user }}
+WorkingDirectory={{ working_dir }}
+ExecStart={{ python_venv_path }}/bin/gunicorn --pid {{ app_base_path }}/gunicorn/pid --bind unix:{{ gunicorn_socket_file }} --access-logfile /var/log/gunicorn/gunicorn.log --error-logfile /var/log/gunicorn/gunicorn_error.log --log-level info --pythonpath {{ pythonpath }} --config /etc/gunicorn.py  nkr_proxy.wsgi:app
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
