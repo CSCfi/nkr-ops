@@ -1,0 +1,26 @@
+
+nkr_app_name: nkr-index
+server_domain_name: "{{ secrets.indexservers.server_domain_name }}"
+
+
+solr:
+    port:    "{{ secrets.indexservers.solr.port }}"
+    version: "{{ secrets.indexservers.solr.version }}"
+
+
+httpd:
+    conf_user: apache
+    conf_group: apache
+    conf_loglevel: "{{ secrets.indexservers.httpd.conf_loglevel }}"
+
+    server_domain_name: "{{ server_domain_name }}"
+    listen_port:        "{{ secrets.indexservers.httpd.listen_port }}"
+
+    ssl_certificates_path: "{{ httpd24_conf_root_path }}/certificates"
+    ssl_certificate_name:  "{{ server_domain_name }}.crt"
+    ssl_key_name:          "{{ server_domain_name }}.key"
+    dh_param_name:         "{{ nkr_app_name }}_dhparam.pem"
+    intermediate_certificate_name: "{{ secrets.indexservers.httpd.intermediate_certificate_name }}"
+
+    ba_users_file: "{{ httpd24_conf_root_path }}/{{ nkr_app_name }}_users"
+    ba_users:      "{{ secrets.indexservers.httpd.ba_users }}"

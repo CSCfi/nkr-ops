@@ -1,0 +1,16 @@
+
+# server external IP addresses
+
+indexserver_1_external_ip: "{{ secrets.indexservers.external_ips[0] }}"
+proxyserver_1_external_ip: "{{ secrets.proxyservers.external_ips[0] }}"
+
+# server internal IP address - system mapping
+
+indexserver_1_internal_ip: "{{ secrets.indexservers.internal_ips[0] }}"
+proxyserver_1_internal_ip: "{{ secrets.proxyservers.internal_ips[0] }}"
+
+# other
+
+deployment_environment_id: test
+
+os_users: "{{ secrets.os_users }}"
