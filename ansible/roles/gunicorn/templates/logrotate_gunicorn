@@ -1,10 +1,10 @@
-/var/log/gunicorn/gunicorn.log
-/var/log/gunicorn/gunicorn_error.log
+/var/log/gunicorn/access_log
+/var/log/gunicorn/error_log
 {
     daily
     rotate 30
     copytruncate
     dateext
     compress
-    su {{ app_user }} metax
+    su {{ owner_user }} {{ owner_group }}
 }

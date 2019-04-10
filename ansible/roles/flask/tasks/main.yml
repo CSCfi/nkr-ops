@@ -1,6 +1,4 @@
 
-# - include_role: name=app_config
-
 - name: Create folder {{ app_base_path }}
   file: path={{ app_base_path }} state=directory owner={{ owner_user }} group={{ owner_user }} mode=0755
 
@@ -65,3 +63,7 @@
 - name: Install app python package requirements
   pip: requirements={{ nkr_proxy_app_repo_path }}/requirements.txt virtualenv={{ python_venv_path }}
   become_user: "{{ owner_user }}"
+
+- name: Copy configs to {{ nkr_proxy_web_app_config_path }}
+  include_role:
+    name: flask_app_config
