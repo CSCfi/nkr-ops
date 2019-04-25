@@ -1,0 +1,27 @@
+[
+    {
+        "id": "123-ABC::10",
+        "display_restriction_id_str": "10",
+        "title": "Test document",
+        "description": "Very sensitive test data. Don't look!",
+        "author": "Teppo Testaaja",
+        "institution": "csc.fi"
+
+    },
+    {
+        "id": "456-DEF::10",
+        "display_restriction_id_str": "10",
+        "title": "Another Test document",
+        "description": "Even More Sensitive test data. Don't look!",
+        "author": "Teppo Testaaja",
+        "institution": "csc.fi"
+    },
+    {
+        "id": "456-DEF::30",
+        "display_restriction_id_str": "30",
+        "title": "Another Test document",
+        "description": "Even More Sensitive test data. Don't look!",
+        "author": "Teppo Testaaja, actually Josif Stalin",
+        "institution": "csc.fi"
+    }
+]

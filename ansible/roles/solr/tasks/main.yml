@@ -3,29 +3,30 @@
 - include_role:
     name: ansible-role-java
   vars:
-    java_packages:
-      - java-1.8.0-openjdk
+    java_version: '11'
+    # java_packages:
+    #   - java-1.11.0-openjdk
 
-- include_role:
-    name: ansible-role-solr
-  vars:
-    # https://github.com/geerlingguy/ansible-role-solr
-    solr_create_user: true
-    solr_user: solr
-    solr_version: "{{ solr.version }}"
-    solr_mirror: "https://archive.apache.org/dist"
-    solr_remove_cruft: false
-    solr_service_manage: true
-    solr_service_name: solr
-    solr_service_state: started
-    solr_install_dir: /opt
-    solr_install_path: /opt/solr
-    solr_home: /var/solr
-    solr_port: "{{ solr.port }}"
-    solr_xms: "256M"
-    solr_xmx: "512M"
-    solr_timezone: "UTC"
-    solr_cores:
-      - collection1
-    solr_connect_host: localhost
-    solr_restart_handler_enabled: true
+# - include_role:
+#     name: ansible-role-solr
+#   vars:
+#     # https://github.com/geerlingguy/ansible-role-solr
+#     solr_create_user: true
+#     solr_user: solr
+#     solr_version: "{{ solr.version }}"
+#     solr_mirror: "https://archive.apache.org/dist"
+#     solr_remove_cruft: false
+#     solr_service_manage: true
+#     solr_service_name: solr
+#     solr_service_state: started
+#     solr_install_dir: /opt
+#     solr_install_path: /opt/solr
+#     solr_home: /var/solr
+#     solr_port: "{{ solr.port }}"
+#     solr_xms: "256M"
+#     solr_xmx: "512M"
+#     solr_timezone: "UTC"
+#     solr_cores:
+#       - collection1
+#     solr_connect_host: localhost
+#     solr_restart_handler_enabled: true

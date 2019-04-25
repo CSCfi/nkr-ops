@@ -4,7 +4,7 @@
   file: path={{ nkr_proxy_web_app_config_path }} state=directory owner={{ owner_user }} group={{ owner_user }}
 
 - name: Copy config/config.sh
-  template: src=templates/config.sh dest={{ nkr_proxy_web_app_config_file_path }}
+  template: src=templates/config.sh dest={{ nkr_proxy_web_app_config_file_path }} owner={{ owner_user }} group={{ owner_user }}
 
 - name: Copy config/logging.ini
-  template: src=templates/logging.ini dest={{ nkr_proxy_web_app_config_path }}/logging.ini
+  template: src=templates/logging.ini dest={{ nkr_proxy_web_app_config_path }}/logging.ini owner={{ owner_user }} group={{ owner_user }}

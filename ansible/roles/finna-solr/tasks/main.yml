@@ -1,0 +1,120 @@
+---
+
+- include_role:
+    name: ansible-role-java
+  vars:
+    java_version: '11'
+
+- name: Install libvoikko using yum
+  yum: name=libvoikko state=latest
+
+- name: Create /etc/voikko directory
+  file:
+    path: /etc/voikko
+    state: directory
+
+- name: Download and unarchive dict-morphoid.zip to /etc/voikko/
+  unarchive:
+    src: http://www.puimula.org/htp/testing/voikko-snapshot/dict-morphoid.zip
+    dest: /etc/voikko
+    remote_src: yes
+
+- name: Create solr-user
+  user:
+    name: solr
+    state: present
+    createhome: yes
+    password_lock: yes
+
+- name: Create solr data dir to /data/solr
+  file:
+    path: /data/solr
+    state: directory
+    owner: solr
+    group: solr
+
+- name: Clone finna-solr repository from github
+  git: repo=https://github.com/NatLibFi/finna-solr dest=/home/solr/finna-solr
+  become_user: solr
+
+- name: Run install_solr.sh
+  command: sh /home/solr/finna-solr/install_solr.sh
+
+# note: using /bin/cp, since "cp" is an alias for "cp -i"
+- name: Copy finna-solr/vufind directory to /data/solr/
+  command: /bin/cp -r /home/solr/finna-solr/vufind /data/solr/
+
+# note: using /bin/cp, since "cp" is an alias for "cp -i"
+- name: Copy finna-solr/vendor directory to /data/solr/
+  command: /bin/cp -r /home/solr/finna-solr/vendor /data/solr/
+
+- name: Copy vufind/solr.in.finna.sh.sample to vufind/solr.in.finna.sh
+  command: cp /data/solr/vufind/solr.in.finna.sh.sample /data/solr/vufind/solr.in.finna.sh
+
+- name: Modify solr.in.finna.sh - Set Java home
+  replace:
+    path: "/data/solr/vufind/solr.in.finna.sh"
+    regexp: "#SOLR_JAVA_HOME=\"\""
+    replace: "SOLR_JAVA_HOME=\"{{ ansible_local['java']['general']['home'] }}\""
+
+- name: Java home from ansible facts is...
+  debug: msg="{{ ansible_local['java']['general']['home'] }}"
+
+- name: Modify solr.in.finna.sh - SOLR Java memory to 512m
+  replace:
+    path: "/data/solr/vufind/solr.in.finna.sh"
+    regexp: "SOLR_JAVA_MEM=\"-Xms16G -Xmx16G\""
+    replace: "SOLR_JAVA_MEM=\"-Xms512m -Xmx512m\""
+
+- name: Modify solr.in.finna.sh - Disable solrcloud
+  replace:
+    path: "/data/solr/vufind/solr.in.finna.sh"
+    regexp: "SOLR_MODE=solrcloud"
+    replace: "# SOLR_MODE=solrcloud"
+
+- name: Modify solr.in.finna.sh - Disable ZooKeeper connection string
+  replace:
+    path: "/data/solr/vufind/solr.in.finna.sh"
+    regexp: "ZK_HOST=\"`hostname`:2181\""
+    replace: "# ZK_HOST=\"`hostname`:2181\""
+
+- name: chown /data/solr to solr-user
+  file:
+    dest: /data/solr
+    owner: solr
+    group: solr
+    recurse: yes
+
+- name: Copy vufind/solr.service to /etc/systemd/system/
+  command: cp /data/solr/vufind/solr.service /etc/systemd/system/solr.service
+
+- name: Ensure solr.service file permissions
+  file:
+    dest: /etc/systemd/system/solr.service
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Start solr service
+  service: name=solr state=restarted enabled=yes
+
+- name: Load test data into index
+  block:
+
+    - name: Create directory for testdata
+      file:
+        path: /data/solr/testdata
+        state: directory
+
+    # note: ansible automatically looks from files/ directory of the role (on the control machine)
+    - name: Copy testdata.json to /data/solr/testdata
+      copy:
+        src: testdata.json
+        dest: /data/solr/testdata/testdata.json
+
+    - name: Load testdata.json into index
+      command: "curl -X POST -H 'Content-Type: application/json' 'http://localhost:8983/solr/biblio/update' --data-binary @/data/solr/testdata/testdata.json"
+      args:
+        warn: false
+
+  when: deployment_environment_id in ['local_development', 'test']

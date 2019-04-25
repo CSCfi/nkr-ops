@@ -1,0 +1,12 @@
+---
+
+- hosts: indexservers
+  become: yes
+  roles:
+    - finna-solr
+  # vars:
+  #   owner_user: "{{ nkr_user }}"
+  #   owner_group: "{{ nkr_user }}"
+  #   app_name: "{{ nkr_app_name }}"
+  #   app_base_path: "{{ nkr_proxy_app_base_path }}"
+  #   python_venv_path: "{{ python_virtualenv_path }}"

@@ -12,4 +12,4 @@
 - include_role:
     name: apache-virtualhost
   vars:
-      template_path: ../provision_proxy/templates/custom_httpd.conf
+    template_path: ../provision_proxy/templates/custom_httpd.conf

@@ -1,4 +1,5 @@
 ---
 
-- src: https://github.com/geerlingguy/ansible-role-java
+# - src: https://github.com/geerlingguy/ansible-role-java
+- src: https://github.com/gantsign/ansible-role-java
 - src: https://github.com/geerlingguy/ansible-role-solr

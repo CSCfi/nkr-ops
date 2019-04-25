@@ -8,3 +8,5 @@ INDEX_URL={{ flask_app.index_url }}
 INDEX_NAME={{ flask_app.index_name }}
 INDEX_USERNAME={{ flask_app.index_username }}
 INDEX_PASSWORD={{ flask_app.index_password }}
+
+LEVEL_RESTRICTION_FIELD={{ flask_app.level_restriction_field }}

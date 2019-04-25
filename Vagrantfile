@@ -15,7 +15,7 @@ if [ ! -f /vagrant_bootstrap_done.info ]; then
   sudo pip install ansible
   cd /shared/ansible
   source install_requirements.sh
-  ansible-playbook site_provision.yml
+  ansible-playbook site_provision.yml -e @./secrets/local_development.yml
   sudo touch /vagrant_bootstrap_done.info
 fi
 

@@ -8,7 +8,7 @@ alias run_flake8='nkr-proxy-src && source-pyvenv && flake8 . && cd -'
 alias install_requirements='nkr-proxy-src && cd .. && source-pyvenv && pip install -r requirements.txt && cd -'
 
 # web app aliases
-alias runserver='cd {{ nkr_proxy_web_app_src_path }} && {{ python_virtualenv_path }}/bin/gunicorn --bind unix:{{ gunicorn_socket_file }} --access-logfile - --error-logfile - --config /etc/gunicorn.py --reload nkr_proxy.wsgi:app'
+alias runserver='set -a && source {{ nkr_proxy_web_app_config_file_path }} && set +a && cd {{ nkr_proxy_web_app_src_path }} && {{ python_virtualenv_path }}/bin/gunicorn --bind unix:{{ gunicorn_socket_file }} --access-logfile - --error-logfile - --config /etc/gunicorn.py --reload nkr_proxy.wsgi:app'
 
 alias runtests='source-pyvenv && cd {{ nkr_proxy_web_app_src_path }} && python manage.py test --failfast && cd -'
 
