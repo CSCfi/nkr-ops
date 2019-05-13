@@ -1,0 +1,50 @@
+---
+
+## yum install rh-php71 rh-php71-php-pear rh-php71-php-xml rh-php71-php-devel rh-php71-php-mbstring rh-php71-php-intl
+# scl enable rh-php71 bash
+# yum install php71u-pecl-mongodb.x86_64
+
+# Let's take 7.1<= because 'pecl' module 'mongodb' is availabel for those
+#  
+- name: Install PHP =>7
+  yum: 
+    state: installed
+    name:
+     - rh-php71
+     - rh-php71-php-pear
+     - rh-php71-php-xml
+     - rh-php71-php-devel
+     - rh-php71-php-mbstring
+     - rh-php71-php-intl
+
+- name: Install PECL module for MongoDB
+  yum:
+    state: installed
+    name:
+     - sclo-php71-php-pecl-mongodb
+
+- name: Ensure that mongodb.ini ok
+
+- name: Install MongoDB repo
+
+- name: Install MongoDB
+
+- name: Clone RecordManager
+
+- name: Create/download Composer install script
+
+- name: Install Composer
+
+- name: Enable PHP with Software Collections (new shell)
+
+- name: Install PHP requirements with Composer
+
+- name: Ensure MongoDB is running
+
+- name: Create indices with dbscripts/mongo.js
+
+- name: Create recordmanager.ini from template and configure
+
+- name: Create datasources.ini from template and configure
+
+- name: Test importing with test EAD xml
