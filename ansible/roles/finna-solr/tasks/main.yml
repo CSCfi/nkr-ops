@@ -38,7 +38,9 @@
   become_user: solr
 
 - name: Run install_solr.sh
-  command: sh /home/solr/finna-solr/install_solr.sh
+  command: ./install_solr.sh
+  args:
+    chdir: /home/solr/finna-solr/
 
 # note: using /bin/cp, since "cp" is an alias for "cp -i"
 - name: Copy finna-solr/vufind directory to /data/solr/
@@ -78,12 +80,30 @@
     regexp: "ZK_HOST=\"`hostname`:2181\""
     replace: "# ZK_HOST=\"`hostname`:2181\""
 
+- name: Modify schema.xml - set uniqueKey to _document_id
+  replace:
+    path: "/data/solr/vufind/biblio/conf/schema.xml"
+    regexp: "<uniqueKey>id</uniqueKey>"
+    replace: "<uniqueKey>_document_id</uniqueKey>"
+
+- name: Modify schema.xml - Add new field _document_id
+  lineinfile:
+    path: "/data/solr/vufind/biblio/conf/schema.xml"
+    insertbefore: "<uniqueKey>_document_id</uniqueKey>"
+    line: '  <field name="_document_id" type="string" indexed="true" stored="true" docValues="true"/>'
+
 - name: chown /data/solr to solr-user
   file:
     dest: /data/solr
     owner: solr
     group: solr
     recurse: yes
+
+- name: Rename core.properties.sample to core.properties
+  command: mv core.properties.sample core.properties
+  args:
+    chdir: /data/solr/vufind/biblio/
+    creates: /data/solr/vufind/biblio/core.properties
 
 - name: Copy vufind/solr.service to /etc/systemd/system/
   command: cp /data/solr/vufind/solr.service /etc/systemd/system/solr.service
@@ -114,6 +134,10 @@
 
     - name: Load testdata.json into index
       command: "curl -X POST -H 'Content-Type: application/json' 'http://localhost:8983/solr/biblio/update' --data-binary @/data/solr/testdata/testdata.json"
+      retries: 3
+      delay: 3
+      register: result
+      until: 'result.stdout_lines and "status\":0" in result.stdout_lines[2]'
       args:
         warn: false
 
