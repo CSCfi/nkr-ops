@@ -1,12 +1,6 @@
 ---
 
-## yum install rh-php71 rh-php71-php-pear rh-php71-php-xml rh-php71-php-devel rh-php71-php-mbstring rh-php71-php-intl
-# scl enable rh-php71 bash
-# yum install php71u-pecl-mongodb.x86_64
-
-# Let's take 7.1<= because 'pecl' module 'mongodb' is availabel for those
-#  
-- name: Install PHP =>7
+- name: Install PHP 7.1
   yum: 
     state: installed
     name:
@@ -20,31 +14,117 @@
 - name: Install PECL module for MongoDB
   yum:
     state: installed
-    name:
-     - sclo-php71-php-pecl-mongodb
+    name: sclo-php71-php-pecl-mongodb
 
 - name: Ensure that mongodb.ini ok
+  ini_file:
+    path: /etc/opt/rh/rh-php71/php.d/50-mongodb.ini
+    section: null
+    option: extension
+    value: mongodb.so
+    backup: yes
 
-- name: Install MongoDB repo
+- name: Add MongoDB repo
+  yum_repository:
+    name: mongodb-org-4.0
+    description: MongoDB Repository
+    baseurl: 'https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/4.0/x86_64/'
+    gpgcheck: yes
+    enabled: yes
+    gpgkey: 'https://www.mongodb.org/static/pgp/server-4.0.asc'
 
 - name: Install MongoDB
+  yum:
+    state: installed
+    name: mongodb-org
+
+- name: Set mongoDB socket file permissions for developer CLI usage
+  lineinfile:
+    path: /etc/mongod.conf
+    insertafter: bindIp.*$
+    line: '{{ item }}'
+  with_items:
+    - "    filePermissions: 0777"
+    - "  unixDomainSocket:"
 
 - name: Clone RecordManager
+  git:
+    repo: 'https://github.com/juholehtonen/RecordManager.git'
+    dest: /usr/local/RecordManager/
+    update: no
 
-- name: Create/download Composer install script
+- name: Copy Composer install script into place
+  copy:
+    src: install_composer.sh
+    dest: /usr/local/RecordManager/
+    mode: '655'
 
 - name: Install Composer
+  shell: echo "./install_composer.sh" | scl enable rh-php71 -
+  args:
+    chdir: /usr/local/RecordManager
+    creates: /usr/local/RecordManager/vendor
 
-- name: Enable PHP with Software Collections (new shell)
-
-- name: Install PHP requirements with Composer
+- name: Install requirements with Software Collections enabled PHP
+  shell: echo "./composer.phar install" | scl enable rh-php71 -
+  args:
+    chdir: /usr/local/RecordManager
+    creates: /usr/local/RecordManager/vendor/autoload.php
 
 - name: Ensure MongoDB is running
+  service: name=mongod state=started enabled=yes
 
 - name: Create indices with dbscripts/mongo.js
+  command: mongo recman dbscripts/mongo.js
+  args:
+    chdir: /usr/local/RecordManager
 
-- name: Create recordmanager.ini from template and configure
+- name: Create recordmanager.ini from template
+  copy:
+    src: recordmanager.ini
+    dest: /usr/local/RecordManager/conf/recordmanager.ini
 
 - name: Create datasources.ini from template and configure
+  copy: 
+    src: datasources.ini
+    dest: /usr/local/RecordManager/conf/datasources.ini
 
-- name: Test importing with test EAD xml
+- name: Create abbreviations file from template
+  command: cp conf/abbreviations.lst.sample conf/abbreviations.lst
+  args:
+    chdir: /usr/local/RecordManager
+
+- name: Create articles file from template
+  command: cp conf/articles.lst.sample conf/articles.lst
+  args:
+    chdir: /usr/local/RecordManager
+
+- name: Create mappings file from template mappings/ead_level_to_format.map.sample
+  command: cp mappings/ead_level_to_format.map.sample mappings/ead_level_to_format.map
+  args:
+    chdir: /usr/local/RecordManager
+    
+- name: Create usage_rights file from template
+  command: cp mappings/usage_rights.map.sample mappings/usage_rights.map
+  args:
+    chdir: /usr/local/RecordManager
+        
+- name: Create language_codes file from template
+  command: cp mappings/language_codes.map.sample mappings/language_codes.map
+  args:
+    chdir: /usr/local/RecordManager        
+
+- name: Test importing with test EAD xml and print output
+  shell: echo "php import.php --file=../nkr-proxy/nkr-proxy/test_xmls/julkinen-ead.xml --source=local_ead" | scl enable rh-php71 -
+  args:
+    chdir: /usr/local/RecordManager
+  register: ps
+  
+- debug: var=ps.stdout_lines
+
+- name: Set log file permissions for developer CLI usage
+  file:
+    path: /var/log/recman.log
+    owner: vagrant
+    group: vagrant
+        
