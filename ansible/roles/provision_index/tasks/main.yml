@@ -1,7 +1,7 @@
 
 - name: Install solr
   include_role:
-    name: solr
+    name: finna-solr
 
 - name: Install httpd
   include_role:

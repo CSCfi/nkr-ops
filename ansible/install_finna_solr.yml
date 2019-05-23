@@ -1,6 +1,0 @@
----
-
-- hosts: indexservers
-  become: yes
-  roles:
-    - finna-solr
