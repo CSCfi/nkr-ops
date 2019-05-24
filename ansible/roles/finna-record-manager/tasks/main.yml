@@ -115,7 +115,7 @@
     chdir: /usr/local/RecordManager        
 
 - name: Test importing with test EAD xml and print output
-  shell: echo "php import.php --file=../nkr-proxy/nkr-proxy/test_xmls/julkinen-ead.xml --source=local_ead" | scl enable rh-php71 -
+  shell: echo "php import.php --file=/shared/ansible/roles/finna-record-manager/files/test_xmls/julkinen-ead.xml --source=local_ead" | scl enable rh-php71 -
   args:
     chdir: /usr/local/RecordManager
   register: ps
