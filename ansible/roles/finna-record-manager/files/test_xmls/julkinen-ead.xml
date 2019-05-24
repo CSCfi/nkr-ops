@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/">
+<responseDate>2019-03-08T15:00:24.979+02:00</responseDate>
+<request verb="ListRecords" from=""/>
+<ListRecords>
+<record>
+<header>
+<identifier>oai:ahaatesti.csc.fi:CSC/EAD_467223843.xml</identifier>
+<datestamp>2019-03-08T15:00:24.979+02:00</datestamp>
+</header>
+<metadata>
+<ead:ead xmlns:ead="http://ead3.archivists.org/schema/">
+    <control>
+        <recordid>EAD_467223843</recordid>
+        <filedesc>
+            <titlestmt>
+                <titleproper encodinganalog="3.1.2" lang="fin">NKR Testiaineisto 2</titleproper>
+                <author>AHAA-konsortio</author>
+            </titlestmt>
+            <publicationstmt>
+                <publisher>AHAA-konsortio</publisher>
+            </publicationstmt>
+        </filedesc>
+        <maintenancestatus value="derived"/>
+        <maintenanceagency>
+            <agencycode lang="eng">AHAA-service</agencycode>
+        </maintenanceagency>
+        <maintenancehistory>
+            <maintenanceevent>
+                <eventtype value="derived"/>
+                <eventdatetime/>
+                <agenttype value="AHAA Service version XX.YY"/>
+                <agent/>
+            </maintenanceevent>
+        </maintenancehistory>
+    </control>
+    <archdesc localtype="inventory" level="fonds">
+        <did>
+            <unitid repositorycode="TBD" encodinganalog="isadg:" countrycode="ISO 3166-1"/>
+            <repository label="hallinnoija" encodinganalog="ahaa:AI42">
+                <corpname identifier="10280">
+                    <part lang="fin">CSC</part>
+                </corpname>
+            </repository>
+            <unitdate label="Ajallinen kattavuus" normal="unknown/open">-</unitdate>
+            <unittitle label="NKR Testiaineisto 2" lang="fin">NKR Testiaineisto 2</unittitle>
+            <unitid label="Tekninen" identifier="467223843"/>
+            <unitid label="Analoginen">NKR Testiaineisto 2 - tunniste</unitid>
+            <unitid label="Viivakoodi">A1551875564QNIFA</unitid>
+        </did>
+        <dsc>
+            <head>Arkiston sisältö</head>
+        </dsc>
+        <controlaccess>
+            <genreform encodinganalog="ahaa:AI08">
+                <part lang="fin">Arkisto</part>
+                <part lang="swe">Arkiv</part>
+                <part lang="eng">eng_Arkisto</part>
+            </genreform>
+            <genreform encodinganalog="ahaa:AI46">
+                <part lang="fin">Yksityisaineisto</part>
+            </genreform>
+        </controlaccess>
+    </archdesc>
+</ead:ead>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:ahaatesti.csc.fi:CSC/EAD_467223774.xml</identifier>
+<datestamp>2019-03-08T15:00:24.979+02:00</datestamp>
+</header>
+<metadata>
+<ead:ead xmlns:ead="http://ead3.archivists.org/schema/">
+    <control>
+        <recordid>EAD_467223774</recordid>
+        <filedesc>
+            <titlestmt>
+                <titleproper encodinganalog="3.1.2" lang="fin">NKR Testiaineisto 1</titleproper>
+                <author>AHAA-konsortio</author>
+            </titlestmt>
+            <publicationstmt>
+                <publisher>AHAA-konsortio</publisher>
+            </publicationstmt>
+        </filedesc>
+        <maintenancestatus value="derived"/>
+        <maintenanceagency>
+            <agencycode lang="eng">AHAA-service</agencycode>
+        </maintenanceagency>
+        <maintenancehistory>
+            <maintenanceevent>
+                <eventtype value="derived"/>
+                <eventdatetime standarddatetime="2019-03-06">2019-03-06 15:04:31</eventdatetime>
+                <agenttype value="AHAA Service version XX.YY"/>
+                <agent/>
+            </maintenanceevent>
+        </maintenancehistory>
+    </control>
+    <archdesc localtype="inventory" level="fonds">
+        <did>
+            <unitid repositorycode="TBD" encodinganalog="isadg:" countrycode="ISO 3166-1"/>
+            <repository label="hallinnoija" encodinganalog="ahaa:AI42">
+                <corpname identifier="10280">
+                    <part lang="fin">CSC</part>
+                </corpname>
+            </repository>
+            <unitdate label="Ajallinen kattavuus" normal="unknown/open">-</unitdate>
+            <unittitle label="NKR Testiaineisto 1" lang="fin">NKR Testiaineisto 1</unittitle>
+            <unitid label="Tekninen" identifier="467223774"/>
+            <unitid label="Analoginen">NKR Testiaineisto 1 - tunniste</unitid>
+            <unitid label="Viivakoodi">A1551875463XfuVI</unitid>
+        </did>
+        <dsc>
+            <head>Arkiston sisältö</head>
+            <c01 level="series">
+                <did>
+                    <repository label="hallinnoija" encodinganalog="ahaa:AI42">
+                        <corpname identifier="10280">
+                            <part lang="fin">CSC</part>
+                        </corpname>
+                    </repository>
+                    <unitdate label="Ajallinen kattavuus" normal="1990-01-01/2010-01-01">01.01.1990-01.01.2010</unitdate>
+                    <unittitle label="NKR Testiaineisto 1-1" lang="fin">NKR Testiaineisto 1-1</unittitle>
+                    <unitid label="Järjestysnumero">1</unitid>
+                    <unitid label="Tekninen" identifier="467223810"/>
+                    <unitid label="Analoginen">NKR Testiaineisto 1-1 - tunniste</unitid>
+                    <unitid label="Viivakoodi">A1551875519xe0Tc</unitid>
+                </did>
+                <controlaccess>
+                    <genreform encodinganalog="ahaa:AI08">
+                        <part lang="fin">Määrittämätön</part>
+                        <part lang="swe">Odefinierad</part>
+                        <part lang="eng">eng_Määrittämätön</part>
+                    </genreform>
+                    <genreform encodinganalog="ahaa:AI46">
+                        <part lang="fin">Viranomaisaineisto</part>
+                    </genreform>
+                    <name localtype="NOT FOUND" relator="Esittelijä" identifier="EAC_467223867">
+                        <part localtype="Ensisijainen nimi"></part>
+                        <part localtype="suhteen ajallinen kattavuus">unknown - open</part>
+                    </name>
+                </controlaccess>
+                <scopecontent encodinganalog="AI10">
+                    <p lang="fin">Aineistoon liittyvä historia<ref href="http://foo.bar"/>
+                    </p>
+                </scopecontent>
+                <relations>
+                    <relation relationtype="cpfrelation" href="EAC_467223867" arcrole="NOT FOUND">
+                        <relationentry></relationentry>
+                    </relation>
+                </relations>
+                <accessrestrict>
+                    <p lang="fin">Aineiston metatiedon esittämistä on rajoitettu, kattavamman metatiedon käyttöön saamista voi tiedustella aineiston hallinnoijalta.</p>
+                    <p lang="eng">Material doesn't contain restricted material, to access such information please contact to administrative archive.</p>
+                </accessrestrict>
+            </c01>
+        </dsc>
+        <controlaccess>
+            <genreform encodinganalog="ahaa:AI08">
+                <part lang="fin">Arkisto</part>
+                <part lang="swe">Arkiv</part>
+                <part lang="eng">eng_Arkisto</part>
+            </genreform>
+            <genreform encodinganalog="ahaa:AI46">
+                <part lang="fin">Viranomaisaineisto</part>
+            </genreform>
+        </controlaccess>
+    </archdesc>
+</ead:ead>
+</metadata>
+</record>
+</ListRecords>
+</OAI-PMH>
