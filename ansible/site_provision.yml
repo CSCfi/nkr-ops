@@ -2,4 +2,4 @@
 
 - import_playbook: provision_indexservers.yml
 - import_playbook: provision_proxyservers.yml
-# - import_playbook: provision_harvesterservers.yml
+- import_playbook: provision_harvesterservers.yml
