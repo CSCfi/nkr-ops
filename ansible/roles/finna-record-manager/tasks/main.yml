@@ -49,7 +49,7 @@
 
 - name: Clone RecordManager
   git:
-    repo: 'https://github.com/juholehtonen/RecordManager.git'
+    repo: 'https://github.com/CSCfi/RecordManager.git'
     dest: /usr/local/RecordManager/
     update: no
 
