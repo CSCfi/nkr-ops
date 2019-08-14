@@ -2,11 +2,17 @@
 # server external IP addresses
 
 indexserver_1_external_ip: "{{ secrets.indexservers.external_ips[0] }}"
+indexserver_2_external_ip: "{{ secrets.indexservers.external_ips[1] }}"
+indexserver_3_external_ip: "{{ secrets.indexservers.external_ips[2] }}"
+
 proxyserver_1_external_ip: "{{ secrets.proxyservers.external_ips[0] }}"
 
 # server internal IP address - system mapping
 
 indexserver_1_internal_ip: "{{ secrets.indexservers.internal_ips[0] }}"
+indexserver_2_internal_ip: "{{ secrets.indexservers.internal_ips[1] }}"
+indexserver_3_internal_ip: "{{ secrets.indexservers.internal_ips[2] }}"
+
 proxyserver_1_internal_ip: "{{ secrets.proxyservers.internal_ips[0] }}"
 
 # other

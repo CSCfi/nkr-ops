@@ -4,6 +4,7 @@
     name: ansible-role-java
   vars:
     java_version: '11'
+  when: secrets.indexservers.solr_cluster == False
 
 - name: Install libvoikko using yum
   yum: name=libvoikko state=latest
@@ -59,8 +60,8 @@
     regexp: "#SOLR_JAVA_HOME=\"\""
     replace: "SOLR_JAVA_HOME=\"{{ ansible_local['java']['general']['home'] }}\""
 
-- name: Java home from ansible facts is...
-  debug: msg="{{ ansible_local['java']['general']['home'] }}"
+# - name: Java home from ansible facts is...
+#   debug: msg="{{ ansible_local['java']['general']['home'] }}"
 
 - name: Modify solr.in.finna.sh - SOLR Java memory to 512m
   replace:
@@ -68,17 +69,43 @@
     regexp: "SOLR_JAVA_MEM=\"-Xms16G -Xmx16G\""
     replace: "SOLR_JAVA_MEM=\"-Xms512m -Xmx512m\""
 
-- name: Modify solr.in.finna.sh - Disable solrcloud
+- name: Modify solr.in.finna.sh - SOLR_HOST to internal ip
   replace:
     path: "/data/solr/vufind/solr.in.finna.sh"
-    regexp: "SOLR_MODE=solrcloud"
-    replace: "# SOLR_MODE=solrcloud"
+    regexp: "SOLR_HOST=\"`hostname`\""
+    replace: "SOLR_HOST=\"{{ ansible_default_ipv4.address }}\""
 
-- name: Modify solr.in.finna.sh - Disable ZooKeeper connection string
+- name: Modify solr.in.finna.sh - Set ZooKeeper connection string
   replace:
     path: "/data/solr/vufind/solr.in.finna.sh"
     regexp: "ZK_HOST=\"`hostname`:2181\""
-    replace: "# ZK_HOST=\"`hostname`:2181\""
+    replace: "ZK_HOST=\"{{ indexserver_1_internal_ip }}:2181,{{ indexserver_2_internal_ip }}:2181,{{ indexserver_3_internal_ip }}:2181\""
+  when: secrets.indexservers.solr_cluster == True
+
+
+- name: Solr standalone settings
+  block:
+
+  - name: Modify solr.in.finna.sh - Disable solrcloud
+    replace:
+      path: "/data/solr/vufind/solr.in.finna.sh"
+      regexp: "SOLR_MODE=solrcloud"
+      replace: "# SOLR_MODE=solrcloud"
+
+  - name: Modify solr.in.finna.sh - Disable ZooKeeper connection string
+    replace:
+      path: "/data/solr/vufind/solr.in.finna.sh"
+      regexp: "ZK_HOST=\"`hostname`:2181\""
+      replace: "# ZK_HOST=\"`hostname`:2181\""
+
+  - name: Load biblio-core by renaming core.properties.sample to core.properties
+    command: mv core.properties.sample core.properties
+    args:
+      chdir: /data/solr/vufind/biblio/
+      creates: /data/solr/vufind/biblio/core.properties
+
+  when: secrets.indexservers.solr_cluster == False
+
 
 - name: Modify schema.xml - set uniqueKey to _document_id
   replace:
@@ -99,12 +126,6 @@
     group: solr
     recurse: yes
 
-- name: Rename core.properties.sample to core.properties
-  command: mv core.properties.sample core.properties
-  args:
-    chdir: /data/solr/vufind/biblio/
-    creates: /data/solr/vufind/biblio/core.properties
-
 - name: Copy vufind/solr.service to /etc/systemd/system/
   command: cp /data/solr/vufind/solr.service /etc/systemd/system/solr.service
 
@@ -117,6 +138,29 @@
 
 - name: Start solr service
   service: name=solr state=restarted enabled=yes
+
+# todo best do some looping behavior like when loading testdata
+- name: Wait for Solr service to start...
+  pause: seconds=10
+
+
+- name: Solr cloud - Load core, collection, configuration
+  block:
+
+    - name: Load biblio core using zookeeper
+      command: "/data/solr/vendor/bin/solr zk upconfig -n biblio -d /data/solr/vufind/biblio/conf"
+      environment:
+        SOLR_INCLUDE: /data/solr/vufind/solr.in.finna.sh
+
+    - name: Create Solr collection
+      command: "curl 'http://localhost:8983/solr/admin/collections?action=CREATE&name=biblio&numShards=3&replicationFactor=1&collection.configName=biblio'"
+
+    - name: Reload Solr configuration
+      command: "curl 'http://localhost:8983/solr/admin/collections?action=RELOAD&name=biblio'"
+
+  when: secrets.indexservers.solr_cluster == True
+  run_once: True
+
 
 - name: Load test data into index
   block:
@@ -142,3 +186,4 @@
         warn: false
 
   when: deployment_environment_id in ['local_development', 'test']
+  run_once: True

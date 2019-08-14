@@ -29,5 +29,4 @@
     - name: Fix concatenated file carriage returns
       command: dos2unix {{ httpd.ssl_certificates_path }}/{{ httpd.ssl_certificate_name }}
 
-  when: deployment_environment_id == 'test'
-  # when: deployment_environment_id in ['test', 'stable']
+  when: deployment_environment_id in ['test', 'stable']

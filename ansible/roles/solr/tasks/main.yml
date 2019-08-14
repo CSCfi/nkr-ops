@@ -1,9 +1,0 @@
----
-
-- include_role:
-    name: ansible-role-java
-  vars:
-    java_version: '11'
-
-- include_role:
-    name: finna-solr

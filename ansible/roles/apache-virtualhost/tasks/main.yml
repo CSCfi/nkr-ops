@@ -15,6 +15,7 @@
     state: present
     mode: 0400
   with_items: "{{ httpd.ba_users }}"
+  no_log: True
 
 - name: Generate Diffie-Hellman PFS (Perfect Forward Secrecy) group
   command: openssl dhparam -out {{ httpd.ssl_certificates_path }}/{{ httpd.dh_param_name }} 2048 creates={{ httpd.ssl_certificates_path }}/{{ httpd.dh_param_name }}
