@@ -5,4 +5,8 @@
   roles:
     - os-base
     - apache
+    - ansible-role-java
+    - zookeeper
     - provision_index
+  vars:
+    java_version: '11'
