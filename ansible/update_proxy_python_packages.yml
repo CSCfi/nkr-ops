@@ -1,0 +1,20 @@
+---
+
+- hosts: proxyservers
+  become: yes
+  tasks:
+    - name: Update python packages to latest versions
+      block:
+
+        - name: Ensure pur is installed
+          pip: name=pur state=latest virtualenv={{ python_virtualenv_path }}
+
+        - name: Update app python package requirements to their latest versions
+          shell: pur --force --requirement {{ nkr_proxy_app_repo_path }}/requirements.txt
+          become_user: "{{ nkr_user }}"
+
+        - name: Update app python dev package requirements to their latest versions
+          shell: pur --force --requirement {{ nkr_proxy_app_repo_path }}/requirements_dev.txt
+          become_user: "{{ nkr_user }}"
+
+      when: deployment_environment_id == 'local_development'

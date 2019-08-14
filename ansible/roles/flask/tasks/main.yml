@@ -44,25 +44,19 @@
 
     when: pull_cmd.failed
 
-  when: deployment_environment_id == 'local_development'
-
-- block:
-
-    # - name: Symlink pre-commit hook in .githooks/ to .git/hooks/
-    #   shell: cd {{ app_base_path }}/.git/hooks; ln -sfn ../../.githooks/pre-commit pre-commit
-
-    - name: Install pur
-      pip: name=pur state=latest
-
-    - name: Update app python package requirements to their latest versions
-      shell: pur --force --requirement {{ nkr_proxy_app_repo_path }}/requirements.txt
-      become_user: "{{ owner_user }}"
+  # - name: Symlink pre-commit hook in .githooks/ to .git/hooks/
+  #   shell: cd {{ app_base_path }}/.git/hooks; ln -sfn ../../.githooks/pre-commit pre-commit
 
   when: deployment_environment_id == 'local_development'
 
-- name: Install app python package requirements
+- name: Install python packages from requirements.txt
   pip: requirements={{ nkr_proxy_app_repo_path }}/requirements.txt virtualenv={{ python_venv_path }}
   become_user: "{{ owner_user }}"
+
+- name: Install python dev packages from requirements_dev.txt
+  pip: requirements={{ nkr_proxy_app_repo_path }}/requirements_dev.txt virtualenv={{ python_venv_path }}
+  become_user: "{{ owner_user }}"
+  when: deployment_environment_id == 'local_development'
 
 - name: Copy configs to {{ nkr_proxy_web_app_config_path }}
   include_role:
