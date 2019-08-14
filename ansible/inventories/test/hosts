@@ -1,6 +1,8 @@
 
 [indexservers]
-nkr-index-1 ansible_host="{{ indexserver_1_external_ip }}" ansible_connection=ssh ansible_user="{{ ssh_user }}"
+nkr-index-1 ansible_ssh_host="{{ indexserver_1_external_ip }}" ansible_host="{{ indexserver_1_internal_ip }}" ansible_connection=ssh ansible_user="{{ ssh_user }}"
+nkr-index-2 ansible_ssh_host="{{ indexserver_2_external_ip }}" ansible_host="{{ indexserver_2_internal_ip }}" ansible_connection=ssh ansible_user="{{ ssh_user }}"
+nkr-index-3 ansible_ssh_host="{{ indexserver_3_external_ip }}" ansible_host="{{ indexserver_3_internal_ip }}" ansible_connection=ssh ansible_user="{{ ssh_user }}"
 
 [proxyservers]
 nkr-proxy-1 ansible_host="{{ proxyserver_1_external_ip }}" ansible_connection=ssh ansible_user="{{ ssh_user }}"
