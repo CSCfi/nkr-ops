@@ -25,8 +25,10 @@ flask_app:
     index_name:     "{{ secrets.proxyservers.flask_app.index_name }}"
     index_username: "{{ secrets.proxyservers.flask_app.index_username }}"
     index_password: "{{ secrets.proxyservers.flask_app.index_password }}"
+    index_allowed_apis: "{{ secrets.proxyservers.flask_app.index_allowed_apis }}"
     level_restriction_field: "{{ secrets.proxyservers.flask_app.level_restriction_field }}"
     document_unique_id_field: "{{ secrets.proxyservers.flask_app.document_unique_id_field }}"
+    metadata_level_10_resource_id: "{{ secrets.proxyservers.flask_app.metadata_level_10_resource_id }}"
 
 
 httpd:

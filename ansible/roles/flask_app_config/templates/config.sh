@@ -1,4 +1,5 @@
-DEBUG={{ flask_app.debug }}
+NKR_ENV="{{ deployment_environment_id }}"
+DEBUG="{{ flask_app.debug }}"
 LOG_LEVEL="{{ flask_app.log_level }}"
 
 REMS_URL="{{ flask_app.rems_url }}"
@@ -8,6 +9,9 @@ INDEX_URL="{{ flask_app.index_url }}"
 INDEX_NAME="{{ flask_app.index_name }}"
 INDEX_USERNAME="{{ flask_app.index_username }}"
 INDEX_PASSWORD="{{ flask_app.index_password }}"
+INDEX_ALLOWED_APIS="{{ flask_app.index_allowed_apis }}"
 
 LEVEL_RESTRICTION_FIELD="{{ flask_app.level_restriction_field }}"
 DOCUMENT_UNIQUE_ID_FIELD="{{ flask_app.document_unique_id_field }}"
+
+METADATA_LEVEL_10_RESOURCE_ID="{{ flask_app.metadata_level_10_resource_id }}"
