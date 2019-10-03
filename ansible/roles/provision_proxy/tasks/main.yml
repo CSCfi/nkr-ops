@@ -7,14 +7,14 @@
   user: name=nkr-user groups=wheel append=yes state=present createhome=yes
 
 - name: Install python
-  include_role:
+  import_role:
     name: python
   vars:
     owner_user: "{{ nkr_user }}"
     owner_group: "{{ nkr_user }}"
 
 - name: Install flask web app
-  include_role:
+  import_role:
     name: flask
   vars:
     owner_user: "{{ nkr_user }}"
@@ -24,7 +24,7 @@
     python_venv_path: "{{ python_virtualenv_path }}"
 
 - name: Install gunicorn
-  include_role:
+  import_role:
     name: gunicorn
   vars:
     owner_user: "{{ nkr_user }}"

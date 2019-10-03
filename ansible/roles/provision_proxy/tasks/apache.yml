@@ -9,7 +9,9 @@
     dest: '{{ httpd24_conf_root_path }}/modules/mod_auth_openidc.so'
     state: link
 
-- include_role:
+- import_role:
     name: apache-virtualhost
   vars:
     template_path: ../provision_proxy/templates/custom_httpd.conf
+  tags:
+    - update_proxy_apache_config
