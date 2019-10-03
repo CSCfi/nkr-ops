@@ -27,5 +27,10 @@
 - name: Systemctl daemon-reload
   shell: "systemctl daemon-reload"
 
-- name: Restart gunicorn
-  service: name=gunicorn state=restarted enabled=yes
+- name: Start gunicorn
+  service: name=gunicorn state=started enabled=yes
+
+- name: Reload gunicorn
+  service: name=gunicorn state=reloaded enabled=yes
+  tags:
+    - update_proxy_code

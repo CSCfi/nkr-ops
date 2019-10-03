@@ -1,7 +1,7 @@
 ---
 
-- name: restart gunicorn
+- name: reload gunicorn
   service:
     name: gunicorn
-    state: restarted
+    state: reloaded
     enabled: yes
