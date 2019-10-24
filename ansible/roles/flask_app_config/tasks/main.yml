@@ -2,22 +2,18 @@
 
 - name: Ensure {{ nkr_proxy_web_app_config_path }} exists
   file: path={{ nkr_proxy_web_app_config_path }} state=directory owner={{ owner_user }} group={{ owner_user }}
-  tags:
-    - update_app_config
 
 - name: Copy config/config.sh
   template: src=templates/config.sh dest={{ nkr_proxy_web_app_config_file_path }} owner={{ owner_user }} group={{ owner_user }}
   tags:
-    - update_app_config
+    - update_proxy_config
 
 - name: Copy config/test_config.sh
   template: src=templates/test_config.sh dest={{ nkr_proxy_web_app_config_path }}/test_config.sh owner={{ owner_user }} group={{ owner_user }}
   tags:
-    - update_app_config
+    - update_proxy_config
 
 - name: Copy config/logging.ini
   template: src=templates/logging.ini dest={{ nkr_proxy_web_app_config_path }}/logging.ini owner={{ owner_user }} group={{ owner_user }}
-  notify:
-    - reload gunicorn
   tags:
-    - update_app_config
+    - update_proxy_config

@@ -11,7 +11,9 @@ DEBUG="{{ flask_app.debug | default('0') }}"
 # extra debugging info and diagnostics output. this is passed to python logging module.
 LOG_LEVEL="{{ flask_app.log_level | default('INFO') }}"
 
-# if envs use self-signed certificates, set to false
+# if envs use self-signed certificates, set to false.
+# note! if using ip list, must be set to false since ip will not match expected hostname
+# of the certificate
 VERIFY_TLS="{{ flask_app.verify_tls | default('1') }}"
 
 
@@ -34,7 +36,7 @@ REMS_API_KEY="{{ flask_app.rems_api_key }}"
 #                       # and api, e.g. https://myindex.fi/index or http://localhost:port/index
 
 INDEX_URL="{{ flask_app.index_url | default('') }}"
-INDEX_IP_LIST="{{ flask_app.index_ip_list | default('') }}"
+INDEX_IP_LIST="{{ flask_app.index_ip_list|join(',') | default('') }}"
 INDEX_MAIN_API="{{ flask_app.index_main_api | default('') }}"
 INDEX_HOSTNAME="{{ flask_app.index_hostname | default('') }}"
 

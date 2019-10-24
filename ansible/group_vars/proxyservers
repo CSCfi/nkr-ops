@@ -18,9 +18,13 @@ server_domain_name:     "{{ secrets.proxyservers.server_domain_name }}"
 
 flask_app:
     debug:          "{{ secrets.proxyservers.flask_app.debug }}"
+    verify_tls:     "{{ secrets.proxyservers.flask_app.verify_tls }}"
     log_level:      "{{ secrets.proxyservers.flask_app.log_level }}"
     rems_url:       "{{ secrets.proxyservers.flask_app.rems_url }}"
     rems_api_key:   "{{ secrets.proxyservers.flask_app.rems_api_key }}"
+    index_ip_list:  "{{ secrets.proxyservers.flask_app.index_ip_list }}"
+    index_main_api: "{{ secrets.proxyservers.flask_app.index_main_api }}"
+    index_hostname: "{{ secrets.proxyservers.flask_app.index_hostname }}"
     index_url:      "{{ secrets.proxyservers.flask_app.index_url }}"
     index_name:     "{{ secrets.proxyservers.flask_app.index_name }}"
     index_username: "{{ secrets.proxyservers.flask_app.index_username }}"

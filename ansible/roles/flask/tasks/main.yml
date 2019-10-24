@@ -65,3 +65,7 @@
 - name: Copy configs to {{ nkr_proxy_web_app_config_path }}
   import_role:
     name: flask_app_config
+  notify:
+    - reload gunicorn
+  tags:
+    - update_proxy_config

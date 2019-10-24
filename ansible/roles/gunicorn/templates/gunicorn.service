@@ -7,9 +7,8 @@ After=network.target
 PIDFile={{ app_base_path }}/gunicorn/pid
 User={{ app_user }}
 Group={{ app_user }}
-EnvironmentFile={{ nkr_proxy_web_app_config_file_path }}
 WorkingDirectory={{ working_dir }}
-ExecStart={{ python_venv_path }}/bin/gunicorn --pid {{ app_base_path }}/gunicorn/pid --bind unix:{{ gunicorn_socket_file }} --access-logfile /var/log/gunicorn/access_log --error-logfile /var/log/gunicorn/error_log --log-level info --pythonpath {{ pythonpath }} --config /etc/gunicorn.py  nkr_proxy.wsgi:app
+ExecStart={{ python_venv_path }}/bin/gunicorn --pid {{ app_base_path }}/gunicorn/pid --bind unix:{{ gunicorn_socket_file }} --access-logfile /var/log/gunicorn/access_log --error-logfile /var/log/gunicorn/error_log --log-level info --pythonpath {{ pythonpath }} --config /etc/gunicorn.py  nkr_proxy.wsgi:app --env CONFIG_PATH={{ nkr_proxy_web_app_config_file_path }}
 ExecReload=/bin/kill -s HUP $MAINPID
 ExecStop=/bin/kill -s TERM $MAINPID
 Restart=always
