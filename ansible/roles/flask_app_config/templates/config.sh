@@ -20,7 +20,7 @@ VERIFY_TLS="{{ flask_app.verify_tls | default('1') }}"
 ### rems configurations
 
 
-REMS_URL="{{ flask_app.rems_url }}"
+REMS_HOST="{{ flask_app.rems_host }}"
 REMS_API_KEY="{{ flask_app.rems_api_key }}"
 
 
@@ -60,3 +60,37 @@ DOCUMENT_UNIQUE_ID_FIELD="{{ flask_app.document_unique_id_field }}"
 
 # identifier of the resource in rems that grants access to level 10 metadata
 METADATA_LEVEL_10_RESOURCE_ID="{{ flask_app.metadata_level_10_resource_id }}"
+
+
+### cache configurations
+
+
+CACHE_HOST="{{ cache.host }}"
+CACHE_PORT="{{ cache.port }}"
+CACHE_PASSWORD="{{ cache.password }}"
+CACHE_DB="{{ cache.db }}"
+CACHE_SOCKET_TIMEOUT="{{ cache.socket_timeout }}"
+
+
+### session expiry check configurations
+
+
+# user inactive for this period of time will have their rems application closed
+SESSION_TIMEOUT_LIMIT={{ session_check_session_timeout_limit }}
+
+# for now only a warning message is logged that clearing sessions is taking a longer-than-expected
+# amount of time.
+SESSION_CLEANUP_MAX_TIME={{ session_check_session_cleanup_max_time }}
+
+# when user application is closed, this message is entered as reason
+REMS_SESSION_CLOSE_MESSAGE="{{ session_check_rems_session_close_message }}"
+
+# when user application is closed, this user id is used to close it. this message is also
+# used to help define the value for x-user-access-status response header.
+REMS_SESSION_CLOSE_USER="{{ session_check_rems_session_close_user }}"
+
+# this message is used to help define the value for x-user-access-status response header.
+REMS_LOGOUT_MESSAGE="{{ session_check_rems_logout_message }}"
+
+# log file fron "session expiry check" cron job
+CRON_SESSION_EXPIRE_LOG="{{ session_check_cron_session_expire_log }}"

@@ -16,11 +16,27 @@ gunicorn_socket_file:   "{{ nkr_proxy_app_base_path }}/gunicorn/socket"
 server_domain_name:     "{{ secrets.proxyservers.server_domain_name }}"
 
 
+session_check_cron_session_expire_log: /var/log/{{ nkr_app_name }}/check_session_expire.log
+session_check_session_timeout_limit: 900
+session_check_session_cleanup_max_time: 300
+session_check_rems_session_close_message: "SESSION AIKAKATKAISU"
+session_check_rems_session_close_user: "{{ secrets.proxyservers.session_check.rems_session_close_user }}"
+session_check_rems_logout_message: "ULOSKIRJAUTUMINEN"
+
+
+cache:
+    host: "{{ secrets.proxyservers.cache.host }}"
+    port: "{{ secrets.proxyservers.cache.port }}"
+    password: "{{ secrets.proxyservers.cache.password }}"
+    db: 0
+    socket_timeout: 0.1
+
+
 flask_app:
     debug:          "{{ secrets.proxyservers.flask_app.debug }}"
     verify_tls:     "{{ secrets.proxyservers.flask_app.verify_tls }}"
     log_level:      "{{ secrets.proxyservers.flask_app.log_level }}"
-    rems_url:       "{{ secrets.proxyservers.flask_app.rems_url }}"
+    rems_host:      "{{ secrets.proxyservers.flask_app.rems_host }}"
     rems_api_key:   "{{ secrets.proxyservers.flask_app.rems_api_key }}"
     index_ip_list:  "{{ secrets.proxyservers.flask_app.index_ip_list }}"
     index_main_api: "{{ secrets.proxyservers.flask_app.index_main_api }}"
