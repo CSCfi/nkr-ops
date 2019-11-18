@@ -1,8 +1,8 @@
 /var/log/{{ nkr_app_name }}/{{ nkr_app_name }}.json.log
 /var/log/{{ nkr_app_name }}/{{ nkr_app_name }}.log {
     daily
-    rotate 180
-    copytruncate
+    rotate 365
+    create 0644 {{ nkr_user }} {{ nkr_user }}
     dateext
     compress
     su {{ nkr_user }} {{ nkr_user }}

@@ -6,6 +6,10 @@
 - name: Add users that should be able to log in to OS
   user: name=nkr-user groups=wheel append=yes state=present createhome=yes
 
+- name: Install Redis
+  import_role:
+    name: redis
+
 - name: Install python
   import_role:
     name: python
@@ -55,6 +59,11 @@
       - "aliases"
 
   when: deployment_environment_id in ['local_development', 'test', 'stable']
+
+- name: Install cron job to check and close user sessions
+  import_tasks: cron.yml
+  tags:
+    - cron_only
 
 - name: Display additional instructions for local dev environment
   debug:

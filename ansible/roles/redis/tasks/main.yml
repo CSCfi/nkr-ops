@@ -1,0 +1,20 @@
+
+- name: Install Redis
+  yum: name=redis state=latest
+
+- name: Set Redis to use appendonly file
+  lineinfile:
+    path: /etc/redis.conf
+    regexp: '^appendonly no'
+    line: 'appendonly yes'
+
+- name: Copy systemd drop-in file to override Restart rule
+  template:
+    src: templates/restart.conf
+    dest: /etc/systemd/system/redis.service.d/restart.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Restart Redis server
+  service: name=redis state=restarted enabled=no
