@@ -27,7 +27,6 @@
       - unzip
       - tree
       - screen
-      - htop
 
 - name: Install common os packages for development
   yum:

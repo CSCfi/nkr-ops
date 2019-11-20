@@ -1,16 +1,25 @@
 ---
 
-- name: Copy check_session_expire.sh to {{ nkr_proxy_app_base_path }}/cron
+- name: Create {{ nkr_proxy_app_base_path }}/cron directory
+  file:
+    path: "{{ nkr_proxy_app_base_path }}/cron"
+    state: directory
+
+- name: Copy check_session_expire.sh to {{ nkr_proxy_app_base_path }}/cron/
   template:
     src: templates/check_session_expire.sh
     dest: "{{ nkr_proxy_app_base_path }}/cron/check_session_expire.sh"
     owner: "{{ nkr_user }}"
     group: "{{ nkr_user }}"
+  tags:
+    - cron_only
 
 - name: Set cron script executable
   file:
     dest: "{{ nkr_proxy_app_base_path }}/cron/check_session_expire.sh"
     mode: u+x
+  tags:
+    - cron_only
 
 - name: Create new cron job to file to /etc/cron.d/nkr_check_session_expire
   cron:
@@ -19,6 +28,8 @@
     job: "sh {{ nkr_proxy_app_base_path }}/cron/check_session_expire.sh"
     cron_file: nkr_check_session_expire
     state: present
+  tags:
+    - cron_only
 
 - name: Add CONFIG_PATH env variable to /etc/cron.d/nkr_check_session_expire
   cron:
@@ -28,3 +39,5 @@
     job: "{{ nkr_proxy_web_app_config_file_path }}"
     cron_file: nkr_check_session_expire
     state: present
+  tags:
+    - cron_only

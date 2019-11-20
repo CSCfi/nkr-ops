@@ -17,4 +17,4 @@
     mode: 0644
 
 - name: Restart Redis server
-  service: name=redis state=restarted enabled=no
+  service: name=redis state=restarted enabled=yes
