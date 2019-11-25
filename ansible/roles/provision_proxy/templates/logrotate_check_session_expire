@@ -1,0 +1,8 @@
+/var/log/{{ nkr_app_name }}/check_session_expire.log {
+    daily
+    rotate 365
+    create 0644 {{ nkr_user }} {{ nkr_user }}
+    dateext
+    compress
+    su {{ nkr_user }} {{ nkr_user }}
+}

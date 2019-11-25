@@ -4,6 +4,8 @@
   file:
     path: "{{ nkr_proxy_app_base_path }}/cron"
     state: directory
+  tags:
+    - cron_only
 
 - name: Copy check_session_expire.sh to {{ nkr_proxy_app_base_path }}/cron/
   template:
@@ -39,5 +41,10 @@
     job: "{{ nkr_proxy_web_app_config_file_path }}"
     cron_file: nkr_check_session_expire
     state: present
+  tags:
+    - cron_only
+
+- name: Create logrotate entry for session check log
+  template: src=templates/logrotate_check_session_expire dest=/etc/logrotate.d/nkr-check_session_expire
   tags:
     - cron_only
