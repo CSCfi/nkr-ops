@@ -1,6 +1,6 @@
 
 - name: Install Redis
-  yum: name=redis state=latest
+  shell: yum -y install redis warn=false
 
 - name: Set Redis to use appendonly file
   lineinfile:

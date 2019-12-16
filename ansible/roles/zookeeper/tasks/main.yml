@@ -1,12 +1,7 @@
 ---
 
-# - name: install java now
-#   include_role:
-#     name: ansible-role-java
-#   vars:
-#     java_version: '11'
-
-- include_role:
+- name: Install zookeeper using ansible-zookeeper role
+  include_role:
     name: ansible-zookeeper
   vars:
     data_dir: /data/zookeeper
@@ -17,12 +12,6 @@
     {{- ips.append(dict(id=loop.index, host=host, ip=hostvars[host]['ansible_default_ipv4'].address)) }}
     {%- endfor %}
     {{- ips -}}"
-    # zookeeper_hosts: "
-    # {%- set ips = [] %}
-    # {%- for internal_ip in secrets.indexservers.internal_ips %}
-    # {{- ips.append(dict(id=loop.index, host=inventory_hostname, ip=internal_ip)) }}
-    # {%- endfor %}
-    # {{- ips -}}"
     zookeeper_env: {
       "JAVA_HOME": "{{ ansible_local['java']['general']['home'] }}"
     }

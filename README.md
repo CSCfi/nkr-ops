@@ -3,6 +3,8 @@
 
 Ansible-scripts to deploy NKR index to remote machines and local development (vagrant).
 
+In case python3 is not yet installed on managed nodes, consider using [this playbook](https://github.com/CSCfi/ansible-provision-python3) for provisioning python3 first.
+
 ## local development
 
 ```

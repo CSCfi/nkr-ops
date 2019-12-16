@@ -1,4 +1,6 @@
 ---
 
-- src: https://github.com/gantsign/ansible-role-java
-- src: https://github.com/AnsibleShipyard/ansible-zookeeper
+- src: https://github.com/cscfi/ansible-role-java
+  version: d85609676d5d170f8d912bd1def9443ff60683a8
+- src: https://github.com/cscfi/ansible-zookeeper
+  version: 21ae7c0726a14e17890769749b0577ece8234080

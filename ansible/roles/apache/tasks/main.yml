@@ -1,7 +1,7 @@
 ---
 
 - name: Install centos-release-scl software collections
-  yum: name=centos-release-scl
+  shell: yum -y install centos-release-scl warn=false
   # why was this 'when' clause in metax?
   # when: deployment_environment_id == 'local_development'
 
@@ -9,7 +9,7 @@
 # modules that are not availble for httpd24. those modules are symlinked
 # httpd24 conf dirs as needed.
 - name: Install vanilla httpd in order to get make some modules available
-  yum: name=httpd state=latest
+  shell: yum -y install httpd warn=false
 
 - name: Set vanilla httpd service to not auto-restart
   lineinfile:
@@ -21,10 +21,10 @@
   service: name=httpd enabled=no state=stopped
 
 - name: Install httpd24
-  yum: name=httpd24-httpd state=latest
+  shell: yum -y install httpd24-httpd warn=false
 
 - name: Install httpd24-mod_ssl
-  yum: name=httpd24-mod_ssl state=latest
+  shell: yum -y install httpd24-mod_ssl warn=false
 
 - name: Listen to port 443 in main httpd conf
   lineinfile:

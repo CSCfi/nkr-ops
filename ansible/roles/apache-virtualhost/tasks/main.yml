@@ -2,8 +2,8 @@
 
 - include_role: name=certificates
 
-- name: Install python-passlib as a dependency for htpasswd ansible module
-  yum: name=python-passlib state=latest
+- name: Install passlib as a dependency for htpasswd ansible module
+  pip: name=passlib state=latest executable=pip3
 
 - name: Create Basic Authentication users file
   htpasswd:

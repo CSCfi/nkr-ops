@@ -6,8 +6,8 @@
     java_version: '11'
   when: secrets.indexservers.solr_cluster == False
 
-- name: Install libvoikko using yum
-  yum: name=libvoikko state=latest
+- name: Install libvoikko
+  shell: yum -y install libvoikko warn=false
 
 - name: Create /etc/voikko directory
   file:

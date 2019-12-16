@@ -1,7 +1,7 @@
 ---
 
 - name: Install mod_auth_openidc from centos standard repository
-  yum: name=mod_auth_openidc state=latest
+  shell: yum -y install mod_auth_openidc warn=false
 
 - name: Link mod_auth_openidc to custom httpd24 modules location
   file:

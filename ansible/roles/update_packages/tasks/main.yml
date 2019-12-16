@@ -1,5 +1,2 @@
 - name: Update yum cache and upgrade all packages
-  yum:
-    name: '*'
-    state: latest
-    update_cache: yes
+  shell: yum -y update warn=false

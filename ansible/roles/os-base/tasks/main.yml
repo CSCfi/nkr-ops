@@ -1,8 +1,10 @@
 ---
 
-# not sure if necessary
-# - name: Make sure we have a 'nkr' group in OS
-#   group: name=nkr state=present
+- name: Install selinux python3 bindings
+  pip: name=selinux state=latest executable=pip3
+
+- name: Make sure we have a 'nkr' group in OS
+  group: name=nkr state=present
 
 - name: Disable SSH password authentication
   lineinfile:
@@ -13,48 +15,27 @@
   notify: restart sshd
 
 - name: Install common yum packages
-  yum:
-    state: latest
-    name:
-      - gcc
-      - gcc-c++
-      - python-devel
-      - git
-      - curl
-      - vim
-      - nano
-      - zip
-      - unzip
-      - tree
-      - screen
+  shell: yum -y install gcc gcc-c++ git curl vim nano zip unzip tree screen warn=false
 
 - name: Install common os packages for development
-  yum:
-    state: latest
-    name:
-      - tcl
-      - ntp
+  shell: yum -y install tcl ntp warn=false
   when: deployment_environment_id not in ['production']
 
-- name: Install pip using yum
-  yum: name=python-pip state=latest
-  when: deployment_environment_id != 'local_development'
+- name: Install selinux python3 bindings
+  pip: name=selinux state=latest executable=pip3
 
-- name: Install latest python pip and setuptools using pip
-  pip:
-    state: latest
-    name:
-      - pip
-      - setuptools
+- name: Set SELinux to permissive in current session
+  shell: setenforce 0
 
-- name: Install pur for updating pip dependencies using pip
-  pip: name=pur state=latest
-  when: deployment_environment_id == 'local_development'
+- name: Set SELinux to permissive in /etc/selinux/config
+  lineinfile:
+    dest: /etc/selinux/config
+    regexp: SELINUX=enforcing
+    line: SELINUX=permissive
+    state: present
 
 - name: Reinstall glibc-common just in case to make Finnish locale available using yum
-  shell: yum -y reinstall glibc-common
-  args:
-    warn: False
+  shell: yum -y reinstall glibc-common warn=false
   when: deployment_environment_id == 'local_development'
 
 - name: Set locale LANG to en_US.UTF-8
@@ -75,9 +56,6 @@
 - name: Set timezone to Europe/Helsinki
   timezone:
     name: Europe/Helsinki
-
-- name: Disable SELinux
-  selinux: state=permissive policy=targeted
 
 - include_role: name=users
 

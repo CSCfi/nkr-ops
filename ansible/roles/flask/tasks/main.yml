@@ -15,6 +15,7 @@
   git: repo={{ project_repo }} dest={{ nkr_proxy_app_repo_path }} version={{ project_repo_branch }}
   become_user: "{{ owner_user }}"
   when: deployment_environment_id != 'local_development'
+  ignore_errors: true
   tags:
     - update_proxy_code
 
