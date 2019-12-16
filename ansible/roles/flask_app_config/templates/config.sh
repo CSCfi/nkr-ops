@@ -22,6 +22,7 @@ VERIFY_TLS="{{ flask_app.verify_tls | default('1') }}"
 
 REMS_HOST="{{ flask_app.rems_host }}"
 REMS_API_KEY="{{ flask_app.rems_api_key }}"
+REMS_REJECTER_BOT_USER="{{ flask_app.rems_rejecter_bot_user }}"
 
 
 ### index configurations
