@@ -1,51 +1,21 @@
 ---
 
+# repo for rh-php71
+- name: Install centos-release-scl software collections
+  shell: yum -y install centos-release-scl warn=false
+
 - name: Install PHP 7.1
-  yum: 
-    state: installed
-    name:
-     - rh-php71
-     - rh-php71-php-pear
-     - rh-php71-php-xml
-     - rh-php71-php-devel
-     - rh-php71-php-mbstring
-     - rh-php71-php-intl
-
-- name: Install PECL module for MongoDB
-  yum:
-    state: installed
-    name: sclo-php71-php-pecl-mongodb
-
-- name: Ensure that mongodb.ini ok
-  ini_file:
-    path: /etc/opt/rh/rh-php71/php.d/50-mongodb.ini
-    section: null
-    option: extension
-    value: mongodb.so
-    backup: yes
-
-- name: Add MongoDB repo
-  yum_repository:
-    name: mongodb-org-4.0
-    description: MongoDB Repository
-    baseurl: 'https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/4.0/x86_64/'
-    gpgcheck: yes
-    enabled: yes
-    gpgkey: 'https://www.mongodb.org/static/pgp/server-4.0.asc'
-
-- name: Install MongoDB
-  yum:
-    state: installed
-    name: mongodb-org
-
-- name: Set mongoDB socket file permissions for developer CLI usage
-  lineinfile:
-    path: /etc/mongod.conf
-    insertafter: bindIp.*$
-    line: '{{ item }}'
+  shell: "yum -y install {{ item }} warn=false"
   with_items:
-    - "    filePermissions: 0777"
-    - "  unixDomainSocket:"
+    - rh-php71
+    - rh-php71-php-pear
+    - rh-php71-php-xml
+    - rh-php71-php-devel
+    - rh-php71-php-mbstring
+    - rh-php71-php-intl
+
+- name: Import mongodb role
+  import_role: name=mongodb
 
 - name: Clone RecordManager
   git:
@@ -80,7 +50,7 @@
     chdir: /usr/local/RecordManager
 
 - name: Create recordmanager.ini from template
-  copy:
+  template:
     src: recordmanager.ini
     dest: /usr/local/RecordManager/conf/recordmanager.ini
 
@@ -114,17 +84,20 @@
   args:
     chdir: /usr/local/RecordManager        
 
-- name: Test importing with test EAD xml and print output
-  shell: echo "php import.php --file=/shared/ansible/roles/finna-record-manager/files/test_xmls/julkinen-ead.xml --source=local_ead" | scl enable rh-php71 -
-  args:
-    chdir: /usr/local/RecordManager
-  register: ps
-  
-- debug: var=ps.stdout_lines
+- block:
 
-- name: Set log file permissions for developer CLI usage
-  file:
-    path: /var/log/recman.log
-    owner: vagrant
-    group: vagrant
-        
+    - name: Test importing with test EAD xml and print output
+      shell: echo "php import.php --file=/shared/ansible/roles/finna-record-manager/files/test_xmls/julkinen-ead.xml --source=local_ead" | scl enable rh-php71 -
+      args:
+        chdir: /usr/local/RecordManager
+      register: ps
+
+    - debug: var=ps.stdout_lines
+
+    - name: Set log file permissions for developer CLI usage
+      file:
+        path: /var/log/recman.log
+        owner: vagrant
+        group: vagrant
+
+  when: deployment_environment_id in ['local_development']

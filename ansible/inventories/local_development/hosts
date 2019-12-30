@@ -7,7 +7,11 @@ nkr-proxy-local ansible_host="{{ server_ip }}" ansible_connection=local ansible_
 [harvesterservers]
 nkr-harvester-local ansible_host="{{ server_ip }}" ansible_connection=local ansible_user=vagrant
 
+[distincthosts]
+nkr-local-1 ansible_host="{{ server_ip }}" ansible_connection=local ansible_user=vagrant
+
 [local_development:children]
 indexservers
 proxyservers
 harvesterservers
+distincthosts

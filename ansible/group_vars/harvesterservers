@@ -1,0 +1,9 @@
+
+harvester:
+    repository_base_url: "{{ secrets.harvesterservers.repository_base_url }}"
+    admin_email: "{{ secrets.harvesterservers.admin_email }}"
+    index:
+        index_hostname: "{{ secrets.harvesterservers.index.index_hostname }}"
+        index_name:     "{{ secrets.harvesterservers.index.index_name }}"
+        index_username: "{{ secrets.harvesterservers.index.index_username }}"
+        index_password: "{{ secrets.harvesterservers.index.index_password }}"
