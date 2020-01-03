@@ -4,9 +4,13 @@ server_domain_name: "{{ secrets.indexservers.server_domain_name }}"
 
 
 solr:
-    port:    "{{ secrets.indexservers.solr.port }}"
-    version: "{{ secrets.indexservers.solr.version }}"
+    port:              "{{ secrets.indexservers.solr.port }}"
+    version:           "{{ secrets.indexservers.solr.version }}"
+    solr_java_mem:     "{{ secrets.indexservers.solr.solr_java_mem }}"
+    finna_solr_commit: "{{ secrets.indexservers.finna_solr_commit }}"
 
+zookeeper:
+    client_port: "{{ secrets.indexservers.zookeeper.client_port }}"
 
 httpd:
     conf_user: apache

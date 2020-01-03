@@ -5,7 +5,10 @@
     name: ansible-zookeeper
   vars:
     data_dir: /data/zookeeper
-    zookeeper_version: 3.4.14
+    # newer version has "apache-" prefix in .tar.gz filename
+    zookeeper_url: http://www.us.apache.org/dist/zookeeper/zookeeper-{{zookeeper_version}}/apache-zookeeper-{{zookeeper_version}}.tar.gz
+    zookeeper_version: 3.5.5
+    client_port: "{{ zookeeper.client_port }}"
     zookeeper_hosts: "
     {%- set ips = [] %}
     {%- for host in groups['indexservers'] %}

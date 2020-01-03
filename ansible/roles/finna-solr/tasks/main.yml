@@ -14,9 +14,15 @@
     path: /etc/voikko
     state: directory
 
-- name: Download and unarchive dict-morphoid.zip to /etc/voikko/
+- name: Download dict-morphoid.zip
+  get_url:
+    url: http://www.puimula.org/htp/testing/voikko-snapshot/dict-morphoid.zip
+    dest: /tmp/dict-morphoid.zip
+    checksum: sha256:7927c030e233f71623c54e3a26514681e6f8da8a4b8f3cd1a9606423ef5f7327
+
+- name: Unarchive dict-morphoid.zip to /etc/voikko/
   unarchive:
-    src: http://www.puimula.org/htp/testing/voikko-snapshot/dict-morphoid.zip
+    src: /tmp/dict-morphoid.zip
     dest: /etc/voikko
     remote_src: yes
 
@@ -35,7 +41,7 @@
     group: solr
 
 - name: Clone finna-solr repository from github
-  git: repo=https://github.com/NatLibFi/finna-solr dest=/home/solr/finna-solr
+  git: repo=https://github.com/NatLibFi/finna-solr dest=/home/solr/finna-solr version="{{ solr.finna_solr_commit }}"
   become_user: solr
 
 - name: Run install_solr.sh
@@ -67,7 +73,7 @@
   replace:
     path: "/data/solr/vufind/solr.in.finna.sh"
     regexp: "SOLR_JAVA_MEM=\"-Xms16G -Xmx16G\""
-    replace: "SOLR_JAVA_MEM=\"-Xms512m -Xmx512m\""
+    replace: "SOLR_JAVA_MEM=\"{{ solr.solr_java_mem }}\""
 
 - name: Modify solr.in.finna.sh - SOLR_HOST to internal ip
   replace:
@@ -79,7 +85,7 @@
   replace:
     path: "/data/solr/vufind/solr.in.finna.sh"
     regexp: "ZK_HOST=\"`hostname`:2181\""
-    replace: "ZK_HOST=\"{{ indexserver_1_internal_ip }}:2181,{{ indexserver_2_internal_ip }}:2181,{{ indexserver_3_internal_ip }}:2181\""
+    replace: "ZK_HOST=\"{{ indexserver_1_internal_ip }}:{{ zookeeper.client_port }},{{ indexserver_2_internal_ip }}:{{ zookeeper.client_port }},{{ indexserver_3_internal_ip }}:{{ zookeeper.client_port }}\""
   when: secrets.indexservers.solr_cluster == True
 
 
@@ -153,10 +159,10 @@
         SOLR_INCLUDE: /data/solr/vufind/solr.in.finna.sh
 
     - name: Create Solr collection
-      command: "curl 'http://localhost:8983/solr/admin/collections?action=CREATE&name=biblio&numShards=3&replicationFactor=1&collection.configName=biblio'"
+      command: "curl 'http://localhost:{{ solr.port }}/solr/admin/collections?action=CREATE&name=biblio&numShards=3&replicationFactor=1&collection.configName=biblio'"
 
     - name: Reload Solr configuration
-      command: "curl 'http://localhost:8983/solr/admin/collections?action=RELOAD&name=biblio'"
+      command: "curl 'http://localhost:{{ solr.port }}/solr/admin/collections?action=RELOAD&name=biblio'"
 
   when: secrets.indexservers.solr_cluster == True
   run_once: True
@@ -167,17 +173,17 @@
 
     - name: Create directory for testdata
       file:
-        path: /data/solr/testdata
+        path: "/data/solr/testdata"
         state: directory
 
     # note: ansible automatically looks from files/ directory of the role (on the control machine)
     - name: Copy testdata.json to /data/solr/testdata
       copy:
         src: testdata.json
-        dest: /data/solr/testdata/testdata.json
+        dest: "/data/solr/testdata/testdata.json"
 
     - name: Load testdata.json into index
-      command: "curl -X POST -H 'Content-Type: application/json' 'http://localhost:8983/solr/biblio/update' --data-binary @/data/solr/testdata/testdata.json"
+      command: "curl -X POST -H 'Content-Type: application/json' 'http://localhost:{{ solr.port }}/solr/biblio/update' --data-binary @/data/solr/testdata/testdata.json"
       retries: 3
       delay: 3
       register: result
