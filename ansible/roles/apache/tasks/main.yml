@@ -2,8 +2,6 @@
 
 - name: Install centos-release-scl software collections
   shell: yum -y install centos-release-scl warn=false
-  # why was this 'when' clause in metax?
-  # when: deployment_environment_id == 'local_development'
 
 # the standard httpd package has to be installed, since it contains some
 # modules that are not availble for httpd24. those modules are symlinked

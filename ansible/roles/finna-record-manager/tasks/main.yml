@@ -1,0 +1,103 @@
+---
+
+# repo for rh-php71
+- name: Install centos-release-scl software collections
+  shell: yum -y install centos-release-scl warn=false
+
+- name: Install PHP 7.1
+  shell: "yum -y install {{ item }} warn=false"
+  with_items:
+    - rh-php71
+    - rh-php71-php-pear
+    - rh-php71-php-xml
+    - rh-php71-php-devel
+    - rh-php71-php-mbstring
+    - rh-php71-php-intl
+
+- name: Import mongodb role
+  import_role: name=mongodb
+
+- name: Clone RecordManager
+  git:
+    repo: 'https://github.com/CSCfi/RecordManager.git'
+    dest: /usr/local/RecordManager/
+    update: no
+
+- name: Copy Composer install script into place
+  copy:
+    src: install_composer.sh
+    dest: /usr/local/RecordManager/
+    mode: '655'
+
+- name: Install Composer
+  shell: echo "./install_composer.sh" | scl enable rh-php71 -
+  args:
+    chdir: /usr/local/RecordManager
+    creates: /usr/local/RecordManager/vendor
+
+- name: Install requirements with Software Collections enabled PHP
+  shell: echo "./composer.phar install" | scl enable rh-php71 -
+  args:
+    chdir: /usr/local/RecordManager
+    creates: /usr/local/RecordManager/vendor/autoload.php
+
+- name: Ensure MongoDB is running
+  service: name=mongod state=started enabled=yes
+
+- name: Create indices with dbscripts/mongo.js
+  command: mongo recman dbscripts/mongo.js
+  args:
+    chdir: /usr/local/RecordManager
+
+- name: Create recordmanager.ini from template
+  template:
+    src: recordmanager.ini
+    dest: /usr/local/RecordManager/conf/recordmanager.ini
+
+- name: Create datasources.ini from template and configure
+  copy: 
+    src: datasources.ini
+    dest: /usr/local/RecordManager/conf/datasources.ini
+
+- name: Create abbreviations file from template
+  command: cp conf/abbreviations.lst.sample conf/abbreviations.lst
+  args:
+    chdir: /usr/local/RecordManager
+
+- name: Create articles file from template
+  command: cp conf/articles.lst.sample conf/articles.lst
+  args:
+    chdir: /usr/local/RecordManager
+
+- name: Create mappings file from template mappings/ead_level_to_format.map.sample
+  command: cp mappings/ead_level_to_format.map.sample mappings/ead_level_to_format.map
+  args:
+    chdir: /usr/local/RecordManager
+    
+- name: Create usage_rights file from template
+  command: cp mappings/usage_rights.map.sample mappings/usage_rights.map
+  args:
+    chdir: /usr/local/RecordManager
+        
+- name: Create language_codes file from template
+  command: cp mappings/language_codes.map.sample mappings/language_codes.map
+  args:
+    chdir: /usr/local/RecordManager        
+
+- block:
+
+    - name: Test importing with test EAD xml and print output
+      shell: echo "php import.php --file=/shared/ansible/roles/finna-record-manager/files/test_xmls/julkinen-ead.xml --source=local_ead" | scl enable rh-php71 -
+      args:
+        chdir: /usr/local/RecordManager
+      register: ps
+
+    - debug: var=ps.stdout_lines
+
+    - name: Set log file permissions for developer CLI usage
+      file:
+        path: /var/log/recman.log
+        owner: vagrant
+        group: vagrant
+
+  when: deployment_environment_id in ['local_development']

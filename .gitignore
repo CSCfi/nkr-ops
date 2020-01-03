@@ -7,7 +7,7 @@
 
 # ignore other git repos
 nkr-index/
-nkr-harvester/
+RecordManager/
 nkr-proxy/
 
 # ansible retry-file

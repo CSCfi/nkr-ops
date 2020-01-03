@@ -1,0 +1,43 @@
+---
+
+- name: Install PECL module for MongoDB
+  shell: yum -y install sclo-php71-php-pecl-mongodb warn=false
+
+- name: Ensure that mongodb.ini ok
+  ini_file:
+    path: /etc/opt/rh/rh-php71/php.d/50-mongodb.ini
+    section: null
+    option: extension
+    value: mongodb.so
+    backup: yes
+
+- name: Add MongoDB repo
+  shell: yum-config-manager --add-repo https://repo.mongodb.org/yum/redhat/7Server/mongodb-org/4.0/x86_64/ warn=false
+  ignore_errors: true
+
+- name: Download mongodb gpgkey
+  get_url:
+    url: https://www.mongodb.org/static/pgp/server-4.0.asc
+    dest: /etc/pki/rpm-gpg/RPM-GPG-KEY-Mongo-4.0
+  become: yes
+
+- name: Set mongodb gpgkey to repo
+  lineinfile:
+    path: /etc/yum.repos.d/repo.mongodb.org_yum_redhat_7Server_mongodb-org_4.0_x86_64_.repo
+    insertafter: enabled=1
+    line: '{{ item }}'
+  with_items:
+    - gpgcheck=1
+    - gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-Mongo-4.0
+
+- name: Install MongoDB
+  shell: yum -y install mongodb-org warn=false
+
+- name: Set mongoDB socket file permissions for developer CLI usage
+  lineinfile:
+    path: /etc/mongod.conf
+    insertafter: bindIp.*$
+    line: '{{ item }}'
+  with_items:
+    - "    filePermissions: 0777"
+    - "  unixDomainSocket:"
