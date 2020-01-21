@@ -23,6 +23,8 @@ ansible/secrets/*
 ansible/roles/ansible-role-java/
 ansible/roles/ansible-zookeeper/
 
+ansible/inventories/production/
+
 *.pem
 *.tar.gz
 __pycache__
