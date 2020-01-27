@@ -1,13 +1,7 @@
 ---
 
-- include_role:
-    name: ansible-role-java
-  vars:
-    java_version: '11'
-  when: secrets.indexservers.solr_cluster == False
-
 - name: Install libvoikko
-  shell: yum -y install libvoikko warn=false
+  shell: yum -y install libvoikko-3.6 warn=false
 
 - name: Create /etc/voikko directory
   file:
@@ -41,7 +35,7 @@
     group: solr
 
 - name: Clone finna-solr repository from github
-  git: repo=https://github.com/NatLibFi/finna-solr dest=/home/solr/finna-solr version="{{ solr.finna_solr_commit }}"
+  git: repo=https://github.com/cscfi/finna-solr dest=/home/solr/finna-solr version="{{ solr.finna_solr_commit }}"
   become_user: solr
 
 - name: Run install_solr.sh

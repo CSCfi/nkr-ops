@@ -9,4 +9,4 @@
     - zookeeper
     - provision_index
   vars:
-    java_version: '11'
+    java_version: 'jdk-11.0.6+10'
