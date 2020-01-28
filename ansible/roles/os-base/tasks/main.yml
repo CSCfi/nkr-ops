@@ -24,15 +24,19 @@
 - name: Install selinux python3 bindings
   pip: name=selinux state=latest executable=pip3
 
-- name: Set SELinux to permissive in current session
-  shell: setenforce 0
+- block:
 
-- name: Set SELinux to permissive in /etc/selinux/config
-  lineinfile:
-    dest: /etc/selinux/config
-    regexp: SELINUX=enforcing
-    line: SELINUX=permissive
-    state: present
+    - name: Set SELinux to permissive in current session
+      shell: setenforce 0
+
+    - name: Set SELinux to permissive in /etc/selinux/config
+      lineinfile:
+        dest: /etc/selinux/config
+        regexp: SELINUX=enforcing
+        line: SELINUX=permissive
+        state: present
+
+  - when: deployment_environment_id != 'production'
 
 - name: Reinstall glibc-common just in case to make Finnish locale available using yum
   shell: yum -y reinstall glibc-common warn=false
@@ -58,5 +62,6 @@
     name: Europe/Helsinki
 
 - include_role: name=users
+  when: deployment_environment_id != 'production'
 
 - include_role: name=update_packages
