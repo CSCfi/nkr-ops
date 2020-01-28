@@ -36,7 +36,7 @@
         line: SELINUX=permissive
         state: present
 
-  - when: deployment_environment_id != 'production'
+  when: deployment_environment_id != 'production'
 
 - name: Reinstall glibc-common just in case to make Finnish locale available using yum
   shell: yum -y reinstall glibc-common warn=false
