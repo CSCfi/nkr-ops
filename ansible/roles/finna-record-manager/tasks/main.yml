@@ -55,8 +55,8 @@
     dest: /usr/local/RecordManager/conf/recordmanager.ini
 
 - name: Create datasources.ini from template and configure
-  copy: 
-    src: datasources.ini
+  template:
+    src: templates/datasources.ini
     dest: /usr/local/RecordManager/conf/datasources.ini
 
 - name: Create abbreviations file from template
