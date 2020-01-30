@@ -4,6 +4,7 @@ harvester:
     admin_email: "{{ secrets.harvesterservers.admin_email }}"
     index:
         index_hostname: "{{ secrets.harvesterservers.index.index_hostname }}"
+        index_port:     "{{ secrets.harvesterservers.index.index_port }}"
         index_name:     "{{ secrets.harvesterservers.index.index_name }}"
         index_username: "{{ secrets.harvesterservers.index.index_username }}"
         index_password: "{{ secrets.harvesterservers.index.index_password }}"
