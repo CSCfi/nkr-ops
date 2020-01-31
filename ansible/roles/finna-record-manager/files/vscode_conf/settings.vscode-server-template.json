@@ -1,0 +1,6 @@
+{
+    // This file: ~/.vscode-server/data/Machine/settings.json at your VM
+    "php.executablePath": "/opt/rh/rh-php71/root/usr/bin/php",
+
+    "php.validate.executablePath": "/opt/rh/rh-php71/root/usr/bin/php"
+}

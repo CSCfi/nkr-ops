@@ -1,5 +1,11 @@
 ---
 
+- name: Make sure we have a 'wheel' group
+  group: name=wheel state=present
+
+- name: Add users that should be able to log in to OS
+  user: name=nkr-user groups=wheel append=yes state=present createhome=yes
+
 # repo for rh-php71
 - name: Install centos-release-scl software collections
   shell: yum -y install centos-release-scl warn=false
@@ -108,5 +114,30 @@
         path: /var/log/recman.log
         owner: vagrant
         group: vagrant
+
+    - name: Copy bash aliases to {{ nkr_user }} user home dir
+      template: src=templates/bash_harvester_aliases dest=/home/{{ nkr_user }}/.bash_harvester_aliases owner={{ nkr_user }} group={{ nkr_user }}
+
+    - name: Touch {{ nkr_user }} .bash_profile
+      file: path=/home/{{ nkr_user }}/.bash_profile owner={{ nkr_user }} group={{ nkr_user }} state=touch
+
+    - name: Add printing of bash aliases to {{ nkr_user }} profile
+      lineinfile:
+        dest: "/home/{{ nkr_user }}/.bash_profile"
+        insertafter: "source .bash_proxy_aliases"
+        line: "source .bash_harvester_aliases"
+        state: present
+
+    - name: Display additional instructions for local dev environment
+      debug:
+        msg:
+          - "Set your local VS Code IDE to connect PHP in your VM."
+          - "Install 'Remote Development' by Microsoft into your VS Code."
+          - "Append to your ~/.ssh/config roles/finna-record-manager/files/vscode_conf/config.ssh-template"
+          - "Connect to your VM from VS Code."
+          - "..."
+          - "Add PHP configuration when asked from <roles/.../.json>"
+          - "~/.vscode-server/data/Machine/settings.json"
+          - "See also: https://code.visualstudio.com/docs/remote/ssh"
 
   when: deployment_environment_id in ['local_development']

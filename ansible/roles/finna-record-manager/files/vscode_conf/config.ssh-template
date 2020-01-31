@@ -1,0 +1,5 @@
+# Add this to your local (ie. host) ~/.ssh/config to connect VSCode to your VM
+Host nkr-index.csc.local
+  HostName nkr-index.csc.local
+  IdentityFile /path/to/your/"vagrant root"/.vagrant/machines/nkr_local_dev_env/virtualbox/private_key
+  User vagrant

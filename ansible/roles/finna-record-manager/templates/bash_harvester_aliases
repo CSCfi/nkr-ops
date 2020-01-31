@@ -1,0 +1,6 @@
+
+# RecordManager
+alias usephp='scl enable rh-php71 bash'
+alias recman-src='cd {{ nkr_harvester_src_path }}'
+alias updatesolr='php manage.php --func=updatesolr --verbose'
+alias importtest='php import.php --file=/shared/ansible/roles/finna-record-manager/files/test_xmls/julkinen-ead.xml --source=local_ead --verbose'
