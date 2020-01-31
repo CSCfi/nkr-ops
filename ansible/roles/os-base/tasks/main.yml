@@ -21,9 +21,6 @@
   shell: yum -y install tcl ntp warn=false
   when: deployment_environment_id not in ['production']
 
-- name: Install selinux python3 bindings
-  pip: name=selinux state=latest executable=pip3
-
 - block:
 
     - name: Set SELinux to permissive in current session
