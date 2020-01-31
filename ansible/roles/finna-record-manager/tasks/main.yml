@@ -93,6 +93,15 @@
       register: ps
 
     - debug: var=ps.stdout_lines
+    
+    - name: Test updating the Solr index print output
+      shell: echo "php manage.php --func=updatesolr" | scl enable rh-php71 -
+      args:
+        chdir: /usr/local/RecordManager
+      register: ps2
+
+    - debug: var=ps2.stdout_lines
+
 
     - name: Set log file permissions for developer CLI usage
       file:
