@@ -23,7 +23,8 @@ ansible/secrets/*
 ansible/roles/ansible-role-java/
 ansible/roles/ansible-zookeeper/
 
-ansible/inventories/production/
+ansible/inventories/*
+!ansible/inventories/local_development
 
 *.pem
 *.tar.gz

@@ -4,7 +4,7 @@
     name: finna-solr
 
 - name: Install httpd
-  include_role:
+  import_role:
     name: apache-virtualhost
   vars:  
       template_path: ../provision_index/templates/custom_httpd.conf

@@ -1,6 +1,5 @@
 
 nkr_app_name: nkr-index
-server_domain_name: "{{ secrets.indexservers.server_domain_name }}"
 
 
 solr:

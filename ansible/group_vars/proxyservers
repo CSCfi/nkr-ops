@@ -14,6 +14,8 @@ project_repo_branch: test
 python_virtualenv_path: "{{ nkr_proxy_app_base_path }}/venv"
 gunicorn_socket_file:   "{{ nkr_proxy_app_base_path }}/gunicorn/socket"
 server_domain_name:     "{{ secrets.proxyservers.server_domain_name }}"
+index_ip_list:          "{{ secrets.indexservers.internal_ips }}"
+index_host_list:        "{{ secrets.proxyservers.flask_app.index_hosts }}"
 
 
 session_check_cron_session_expire_log: /var/log/{{ nkr_app_name }}/check_session_expire.log
@@ -38,10 +40,8 @@ flask_app:
     log_level:      "{{ secrets.proxyservers.flask_app.log_level }}"
     rems_host:      "{{ secrets.proxyservers.flask_app.rems_host }}"
     rems_api_key:   "{{ secrets.proxyservers.flask_app.rems_api_key }}"
-    index_ip_list:  "{{ secrets.proxyservers.flask_app.index_ip_list }}"
+    index_hosts:    "{{ secrets.proxyservers.flask_app.index_hosts }}"
     index_main_api: "{{ secrets.proxyservers.flask_app.index_main_api }}"
-    index_hostname: "{{ secrets.proxyservers.flask_app.index_hostname }}"
-    index_url:      "{{ secrets.proxyservers.flask_app.index_url }}"
     index_name:     "{{ secrets.proxyservers.flask_app.index_name }}"
     index_username: "{{ secrets.proxyservers.flask_app.index_username }}"
     index_password: "{{ secrets.proxyservers.flask_app.index_password }}"
@@ -55,7 +55,7 @@ flask_app:
 httpd:
     conf_user: apache
     conf_group: apache
-    conf_loglevel: debug
+    conf_loglevel: "{{ secrets.proxyservers.httpd.conf_loglevel }}"
 
     server_domain_name: "{{ server_domain_name }}"
     listen_port:        "{{ secrets.proxyservers.httpd.listen_port }}"
