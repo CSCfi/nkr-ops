@@ -12,7 +12,7 @@
   vars:
     ip_list: "{{ index_ip_list }}"
     host_list: "{{ index_host_list }}"
-  when: deployment_environment_id in ['test']
+  when: deployment_environment_id in ['test', 'pentest']
 
 - name: Install Redis
   import_role:
