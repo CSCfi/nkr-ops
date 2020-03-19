@@ -1,0 +1,9 @@
+
+# requires the following parameters, both of which are lists:
+# - ip_list
+# - host_list
+- name: Add hosts to /etc/hosts
+  become: true
+  blockinfile:
+    dest: /etc/hosts
+    content: "{{ lookup('template', 'templates/etc_hosts') }}"

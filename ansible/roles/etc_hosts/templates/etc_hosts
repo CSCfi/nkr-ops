@@ -1,0 +1,3 @@
+{% for item in ip_list %}
+{{ ip_list[loop.index0] }}       {{ host_list[loop.index0] }}
+{% endfor %}

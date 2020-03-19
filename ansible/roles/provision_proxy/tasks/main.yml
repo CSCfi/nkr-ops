@@ -6,6 +6,14 @@
 - name: Add users that should be able to log in to OS
   user: name=nkr-user groups=wheel append=yes state=present createhome=yes
 
+- name: Add index hosts to /etc/hosts
+  import_role:
+    name: etc_hosts
+  vars:
+    ip_list: "{{ index_ip_list }}"
+    host_list: "{{ index_host_list }}"
+  when: deployment_environment_id in ['test']
+
 - name: Install Redis
   import_role:
     name: redis

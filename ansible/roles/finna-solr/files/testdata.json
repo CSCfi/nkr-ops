@@ -2,7 +2,7 @@
     {
         "id": "123-ABC",
         "_document_id": "123-ABC",
-        "display_restriction_id_str": "0",
+        "display_restriction_id_str": "00",
         "title": "Test document",
         "description": "Open test data.",
         "author": "Teppo Testaaja",
@@ -20,7 +20,7 @@
     {
         "id": "456-DEF",
         "_document_id": "456-DEF",
-        "display_restriction_id_str": "0",
+        "display_restriction_id_str": "00",
         "title": "Another Test document",
         "description": "Open test data.",
         "author": "Teppo Testaaja",

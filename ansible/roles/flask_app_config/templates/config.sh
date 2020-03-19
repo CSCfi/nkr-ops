@@ -12,8 +12,6 @@ DEBUG="{{ flask_app.debug | default('0') }}"
 LOG_LEVEL="{{ flask_app.log_level | default('INFO') }}"
 
 # if envs use self-signed certificates, set to false.
-# note! if using ip list, must be set to false since ip will not match expected hostname
-# of the certificate
 VERIFY_TLS="{{ flask_app.verify_tls | default('1') }}"
 
 
@@ -28,19 +26,9 @@ REMS_REJECTER_BOT_USER="{{ flask_app.rems_rejecter_bot_user }}"
 ### index configurations
 
 
-# from the below four, either of the following must be defined:
-# - INDEX_IP_LIST       # comma-separated list of ip-addresses
-# - INDEX_MAIN_API      # main api where index service is reached, e.g. "/index"
-# - INDEX_HOSTNAME      # the value that is set to the HTTP header "Host"
-# OR
-# - INDEX_URL           # should contain full url to index api, including http protocol, hostname,
-#                       # and api, e.g. https://myindex.fi/index or http://localhost:port/index
-
-INDEX_URL="{{ flask_app.index_url | default('') }}"
-INDEX_IP_LIST="{{ flask_app.index_ip_list|join(',') | default('') }}"
-INDEX_MAIN_API="{{ flask_app.index_main_api | default('') }}"
-INDEX_HOSTNAME="{{ flask_app.index_hostname | default('') }}"
-
+# comma-separated list of hosts. for localhost development, include port (host:prt)
+INDEX_HOSTS="{{ flask_app.index_hosts|join(',') }}"
+INDEX_MAIN_API="{{ flask_app.index_main_api }}"
 INDEX_NAME="{{ flask_app.index_name }}"
 
 # credentials for accessing the index
