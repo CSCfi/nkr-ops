@@ -10,6 +10,7 @@ solr:
 
 zookeeper:
     client_port: "{{ secrets.indexservers.zookeeper.client_port }}"
+    version: "{{ secrets.indexservers.zookeeper.version }}"
 
 httpd:
     conf_user: apache

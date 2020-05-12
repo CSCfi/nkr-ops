@@ -1,6 +1,6 @@
 
 - name: Install solr
-  include_role:
+  import_role:
     name: finna-solr
 
 - name: Install httpd
