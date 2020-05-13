@@ -4,6 +4,8 @@ nkr_app_name: RecordManager
 nkr_harvester_base_path:       "/usr/local/{{ nkr_app_name }}"
 nkr_harvester_src_path:    "{{ nkr_harvester_base_path }}/src"
 
+php_version:            "73"
+
 index_ip_list:          "{{ secrets.indexservers.internal_ips }}"
 index_host_list:        "{{ secrets.proxyservers.flask_app.index_hosts }}"
 

@@ -1,11 +1,11 @@
 ---
 
 - name: Install PECL module for MongoDB
-  shell: yum -y install sclo-php71-php-pecl-mongodb warn=false
+  shell: yum -y install sclo-php{{php_version}}-php-pecl-mongodb warn=false
 
 - name: Ensure that mongodb.ini ok
   ini_file:
-    path: /etc/opt/rh/rh-php71/php.d/50-mongodb.ini
+    path: /etc/opt/rh/rh-php{{php_version}}/php.d/50-mongodb.ini
     section: null
     option: extension
     value: mongodb.so
