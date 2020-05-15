@@ -14,19 +14,19 @@
     host_list: "{{ index_host_list }}"
   when: deployment_environment_id in ['test', 'pentest']
 
-# repo for rh-php71
+# repo for rh-php
 - name: Install centos-release-scl software collections
   shell: yum -y install centos-release-scl warn=false
 
-- name: Install PHP 7.1
+- name: Install PHP {{php_version}}
   shell: "yum -y install {{ item }} warn=false"
   with_items:
-    - rh-php71
-    - rh-php71-php-pear
-    - rh-php71-php-xml
-    - rh-php71-php-devel
-    - rh-php71-php-mbstring
-    - rh-php71-php-intl
+    - rh-php{{php_version}}
+    - rh-php{{php_version}}-php-pear
+    - rh-php{{php_version}}-php-xml
+    - rh-php{{php_version}}-php-devel
+    - rh-php{{php_version}}-php-mbstring
+    - rh-php{{php_version}}-php-intl
 
 - name: Import mongodb role
   import_role: name=mongodb
@@ -44,13 +44,13 @@
     mode: '655'
 
 - name: Install Composer
-  shell: echo "./install_composer.sh" | scl enable rh-php71 -
+  shell: echo "./install_composer.sh" | scl enable rh-php{{php_version}} -
   args:
     chdir: /usr/local/RecordManager
     creates: /usr/local/RecordManager/vendor
 
 - name: Install requirements with Software Collections enabled PHP
-  shell: echo "./composer.phar install" | scl enable rh-php71 -
+  shell: echo "./composer.phar install" | scl enable rh-php{{php_version}} -
   args:
     chdir: /usr/local/RecordManager
     creates: /usr/local/RecordManager/vendor/autoload.php
@@ -101,7 +101,7 @@
 - block:
 
     - name: Test importing with test EAD xml and print output
-      shell: echo "php import.php --file=/shared/ansible/roles/finna-record-manager/files/test_xmls/julkinen-ead.xml --source=local_ead" | scl enable rh-php71 -
+      shell: echo "php import.php --file=/shared/ansible/roles/finna-record-manager/files/test_xmls/julkinen-ead.xml --source=local_ead" | scl enable rh-php{{php_version}} -
       args:
         chdir: /usr/local/RecordManager
       register: ps
@@ -109,7 +109,7 @@
     - debug: var=ps.stdout_lines
     
     - name: Test updating the Solr index print output
-      shell: echo "php manage.php --func=updatesolr" | scl enable rh-php71 -
+      shell: echo "php manage.php --func=updatesolr" | scl enable rh-php{{php_version}} -
       args:
         chdir: /usr/local/RecordManager
       register: ps2
