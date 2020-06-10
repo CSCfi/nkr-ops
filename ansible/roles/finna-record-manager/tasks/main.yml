@@ -83,6 +83,15 @@
   args:
     chdir: /usr/local/RecordManager
 
+- name: Copy AHAA specific mapping files into place
+  copy:
+    src: {{ item }}
+    dest: /usr/local/RecordManager/mappings/
+  with_items:
+    - ahaa_level_to_format.map
+    - building_ahaa.map
+    - institution_ahaa.map
+
 - name: Create mappings file from template mappings/ead_level_to_format.map.sample
   command: cp mappings/ead_level_to_format.map.sample mappings/ead_level_to_format.map
   args:
