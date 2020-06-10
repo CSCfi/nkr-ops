@@ -20,6 +20,7 @@ harvester:
         index_password: "{{ secrets.harvesterservers.index.index_password }}"
 
     datasource:
-        url:          "{{ secrets.harvesterservers.datasource.url }}"
-        username:     "{{ secrets.harvesterservers.datasource.username }}"
-        password:     "{{ secrets.harvesterservers.datasource.password }}"
+        url_public:     "{{ secrets.harvesterservers.datasource.url_public }}"
+        url_restricted: "{{ secrets.harvesterservers.datasource.url_restricted }}"
+        username:       "{{ secrets.harvesterservers.datasource.username }}"
+        password:       "{{ secrets.harvesterservers.datasource.password }}"
