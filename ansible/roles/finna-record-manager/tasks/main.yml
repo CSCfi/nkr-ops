@@ -85,7 +85,7 @@
 
 - name: Copy AHAA specific mapping files into place
   copy:
-    src: {{ item }}
+    src: "{{ item }}"
     dest: /usr/local/RecordManager/mappings/
   with_items:
     - ahaa_level_to_format.map
