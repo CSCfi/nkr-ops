@@ -10,6 +10,7 @@ index_ip_list:          "{{ secrets.indexservers.internal_ips }}"
 index_host_list:        "{{ secrets.proxyservers.flask_app.index_hosts }}"
 
 harvester:
+    branch: "{{ secrets.harvesterservers.branch }}"
     repository_base_url: "{{ secrets.harvesterservers.repository_base_url }}"
     admin_email: "{{ secrets.harvesterservers.admin_email }}"
     index:
