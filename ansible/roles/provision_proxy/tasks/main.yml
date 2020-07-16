@@ -73,12 +73,21 @@
   tags:
     - cron_only
 
-- name: Display additional instructions for local dev environment
-  debug:
-    msg:
-      - "Local dev environment successfully set up. Execute `vagrant ssh` to connect."
-      - "For web browser access, open your local /etc/hosts file and add the following entries:"
-      - "30.30.30.30 nkr-index.csc.local"
-      - "30.30.30.30 nkr-harvester.csc.local"
-      - "30.30.30.30 nkr-proxy.csc.local"
+- block:
+
+  - name: Add proxy local host to VM's /etc/hosts
+    lineinfile:
+      dest: "/etc/hosts"
+      state: present
+      line: "30.30.30.30 {{ server_domain_name }}"
+
+  - name: Display additional instructions for local dev environment
+    debug:
+      msg:
+        - "Local dev environment successfully set up. Execute `vagrant ssh` to connect."
+        - "For web browser access, open your local /etc/hosts file and add the following entries:"
+        - "30.30.30.30 nkr-index.csc.local"
+        - "30.30.30.30 nkr-harvester.csc.local"
+        - "30.30.30.30 nkr-proxy.csc.local"
+
   when: deployment_environment_id == 'local_development'
