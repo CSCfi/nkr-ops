@@ -75,7 +75,7 @@
 
 - block:
 
-  - name: Add proxy local host to /etc/hosts
+  - name: Add proxy local host to VM's /etc/hosts
     lineinfile:
       dest: "/etc/hosts"
       state: present
