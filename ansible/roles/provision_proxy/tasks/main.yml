@@ -73,7 +73,7 @@
   tags:
     - cron_only
 
-- block
+- block:
 
   - name: Display additional instructions for local dev environment
     debug:
