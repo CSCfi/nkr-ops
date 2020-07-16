@@ -75,6 +75,12 @@
 
 - block:
 
+  - name: Add proxy local host to /etc/hosts
+    lineinfile:
+      dest: "/etc/hosts"
+      state: present
+      line: "30.30.30.30 {{ server_domain_name }}"
+
   - name: Display additional instructions for local dev environment
     debug:
       msg:
@@ -83,11 +89,5 @@
         - "30.30.30.30 nkr-index.csc.local"
         - "30.30.30.30 nkr-harvester.csc.local"
         - "30.30.30.30 nkr-proxy.csc.local"
-
-  - name: Add proxy local host to /etc/hosts
-    lineinfile:
-      dest: "/etc/hosts"
-      state: present
-      line: "30.30.30.30 {{ server_domain_name }}"
 
   when: deployment_environment_id == 'local_development'
