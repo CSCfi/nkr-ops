@@ -3,8 +3,10 @@
 - name: Make sure we have a 'wheel' group
   group: name=wheel state=present
 
+# TODO: role 'users' removes 'nkr-user' and this adds it again. when modifying role 'users' note that indexservers
+# TODO: don't use 'nkr-user'
 - name: Add users that should be able to log in to OS
-  user: name=nkr-user groups=wheel append=yes state=present createhome=yes
+  user: name="{{ nkr_user }}" groups=wheel append=yes state=present createhome=yes
 
 - name: Add index hosts to /etc/hosts
   import_role:

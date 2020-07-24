@@ -1,4 +1,5 @@
-
+# TODO: some better solution instead this empty string "" definition needed by 'users' role,
+nkr_user: ""
 nkr_app_name: nkr-index
 
 
