@@ -13,7 +13,8 @@
 
 - name: Add MongoDB repo
   shell: yum-config-manager --add-repo https://repo.mongodb.org/yum/redhat/7Server/mongodb-org/4.0/x86_64/ warn=false
-  ignore_errors: true
+  register: yum_mongo_repo
+  failed_when: yum_mongo_repo.rc != 0 and "duplicate of an existing repo" not in yum_mongo_repo.stdout
 
 - name: Download mongodb gpgkey
   get_url:
