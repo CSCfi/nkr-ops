@@ -26,4 +26,19 @@
       copy: src=files/public_keys/{{ item }}.pub dest=/home/{{ item }}/.ssh/authorized_keys owner={{ item }} mode=0600
       with_items: "{{ os_users }}"
 
+    - name: Determine existing users
+      shell: 'grep wheel /etc/group | cut -d: -f4 | tr "," "\n"'
+      changed_when: false
+      register: existing_users
+
+    - name: Determine removed users
+      set_fact:
+        removed_users: "{{ existing_users.stdout_lines | difference(ssh_user) | difference(os_users) | difference (nkr_user) }}"
+
+    - name: Delete removed user accounts
+      user:
+        name: "{{ item }}"
+        state: absent
+      with_items: "{{ removed_users }}"
+
   when: deployment_environment_id != 'local_development'
