@@ -68,7 +68,7 @@ CACHE_SOCKET_TIMEOUT="{{ cache.socket_timeout }}"
 SESSION_TIMEOUT_LIMIT={{ session_check_session_timeout_limit }}
 
 # user active for this period of time will have their rems application closed
-SESSION_TIMEOUT_LONGER_LIMIT={{ session_check_session_long_timeout_limit }}
+SESSION_TIMEOUT_LONGER_LIMIT={{ session_check_session_timeout_limit_long }}
 
 # for now only a warning message is logged that clearing sessions is taking a longer-than-expected
 # amount of time.
@@ -78,7 +78,7 @@ SESSION_CLEANUP_MAX_TIME={{ session_check_session_cleanup_max_time }}
 REMS_SESSION_CLOSE_MESSAGE="{{ session_check_rems_session_close_message }}"
 
 # when user application is closed after daily maximum length of session is reached, this message is entered as reason
-REMS_CLOSE_ACTIVE_SESSION_MESSAGE="{{ session_check_rems_active_session_close_message }}"
+REMS_CLOSE_ACTIVE_SESSION_MESSAGE="{{ session_check_rems_session_close_message_active }}"
 
 # when user application is closed, this user id is used to close it. this message is also
 # used to help define the value for x-user-access-status response header.
