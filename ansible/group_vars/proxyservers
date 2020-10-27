@@ -20,8 +20,10 @@ index_host_list:        "{{ secrets.proxyservers.flask_app.index_hosts }}"
 
 session_check_cron_session_expire_log: /var/log/{{ nkr_app_name }}/check_session_expire.log
 session_check_session_timeout_limit: 900
+session_check_session_timeout_limit_long: 28800
 session_check_session_cleanup_max_time: 300
 session_check_rems_session_close_message: "SESSION AIKAKATKAISU"
+session_check_rems_session_close_message_active: "AKTIIVISEN SESSION AIKAKATKAISU"
 session_check_rems_session_close_user: "{{ secrets.proxyservers.session_check.rems_session_close_user }}"
 session_check_rems_logout_message: "ULOSKIRJAUTUMINEN"
 
