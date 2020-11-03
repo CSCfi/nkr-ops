@@ -65,14 +65,14 @@ CACHE_SOCKET_TIMEOUT="{{ cache.socket_timeout }}"
 
 
 # user inactive for this period of time will have their rems application closed
-SESSION_TIMEOUT_LIMIT={{ session_check_session_timeout_limit }}
+SESSION_TIMEOUT_LIMIT="{{ session_check_session_timeout_limit }}"
 
 # user active for this period of time will have their rems application closed
-SESSION_TIMEOUT_LIMIT_LONG={{ session_check_session_timeout_limit_long }}
+SESSION_TIMEOUT_LIMIT_LONG="{{ session_check_session_timeout_limit_long }}"
 
 # for now only a warning message is logged that clearing sessions is taking a longer-than-expected
 # amount of time.
-SESSION_CLEANUP_MAX_TIME={{ session_check_session_cleanup_max_time }}
+SESSION_CLEANUP_MAX_TIME="{{ session_check_session_cleanup_max_time }}"
 
 # when user application is closed, this message is entered as reason
 REMS_SESSION_CLOSE_MESSAGE="{{ session_check_rems_session_close_message }}"
@@ -107,12 +107,12 @@ INCLUDE_REQUESTS_WITH_FIELD_PARAM="{{ flask_app.include_requests_with_field_para
 INCLUDE_REQUESTS_WITH_QUERY_PARAM="{{ flask_app.include_requests_with_query_param }}"
 EXCLUDE_REQUESTS_WITH_QUERY_PARAM="{{ flask_app.exclude_requests_with_query_param }}"
 
-REQUEST_TIME_DIFFERENCE={{ flask_app.request_time_difference }}
+REQUEST_TIME_DIFFERENCE="{{ flask_app.request_time_difference }}"
 
 # after a notification about exceeded request limit is sent, the next notification can be sent after the time specified here has passed
-LIMIT_FOR_SENDING_NEW_EMAIL={{ flask_app.limit_for_sending_new_email }}
+LIMIT_FOR_SENDING_NEW_EMAIL="{{ flask_app.limit_for_sending_new_email }}"
 
-MAIL_MAX_EMAILS={{ flask_app.mail_max_emails }}
+MAIL_MAX_EMAILS="{{ flask_app.mail_max_emails }}"
 
 MAIL_SHORT_PERIOD="{{ flask_app.mail.short_period }}"
 MAIL_LONG_PERIOD="{{ flask_app.mail.long_period }}"
