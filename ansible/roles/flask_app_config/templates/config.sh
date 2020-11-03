@@ -101,7 +101,7 @@ LONG_TIMEFRAME="{{ flask_app.long_timeframe }}"
 MAX_AMOUNT_OF_REQUESTS_SHORT_PERIOD="{{ flask_app.max_amount_of_requests_short_period }}"
 MAX_AMOUNT_OF_REQUESTS_LONG_PERIOD="{{ flask_app.max_amount_of_requests_long_period }}"
 
-# these values are meant for including the right requests in counting the numbe$
+# these values are meant for including the right requests in counting the number of requests
 EXCLUDE_REQUESTS_WITH_FIELD_PARAM="{{ flask_app.exclude_requests_with_field_param }}"
 INCLUDE_REQUESTS_WITH_FIELD_PARAM="{{ flask_app.include_requests_with_field_param }}"
 INCLUDE_REQUESTS_WITH_QUERY_PARAM="{{ flask_app.include_requests_with_query_param }}"
