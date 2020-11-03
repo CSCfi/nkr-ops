@@ -89,3 +89,37 @@ REMS_LOGOUT_MESSAGE="{{ session_check_rems_logout_message }}"
 
 # log file fron "session expiry check" cron job
 CRON_SESSION_EXPIRE_LOG="{{ session_check_cron_session_expire_log }}"
+
+
+### Request restriction configurations
+
+# Sliding windows for request limits
+SHORT_TIMEFRAME="{{ flask_app.short_timeframe }}" 
+LONG_TIMEFRAME="{{ flask_app.long_timeframe }}"
+
+# Maximum amount of requests 
+MAX_AMOUNT_OF_REQUESTS_SHORT_PERIOD="{{ flask_app.max_amount_of_requests_short_period }}"
+MAX_AMOUNT_OF_REQUESTS_LONG_PERIOD="{{ flask_app.max_amount_of_requests_long_period }}"
+
+# these values are meant for including the right requests in counting the numbe$
+EXCLUDE_REQUESTS_WITH_FIELD_PARAM="{{ flask_app.exclude_requests_with_field_param }}"
+INCLUDE_REQUESTS_WITH_FIELD_PARAM="{{ flask_app.include_requests_with_field_param }}"
+INCLUDE_REQUESTS_WITH_QUERY_PARAM="{{ flask_app.include_requests_with_query_param }}"
+EXCLUDE_REQUESTS_WITH_QUERY_PARAM="{{ flask_app.exclude_requests_with_query_param }}"
+
+REQUEST_TIME_DIFFERENCE={{ flask_app.request_time_difference }}
+
+# after a notification about exceeded request limit is sent, the next notification can be sent after the time specified here has passed
+LIMIT_FOR_SENDING_NEW_EMAIL={{ flask_app.limit_for_sending_new_email }}
+
+MAIL_MAX_EMAILS={{ flask_app.mail_max_emails }}
+
+MAIL_SHORT_PERIOD="{{ flask_app.mail.short_period }}"
+MAIL_LONG_PERIOD="{{ flask_app.mail.long_period }}"
+MAIL_SERVER="{{ flask_app.mail.server }}"
+MAIL_PORT="{{ flask_app.mail.port }}"
+MAIL_USE_TLS="{{ flask_app.mail.use_tls }}"
+MAIL_USE_SSL="{{ flask_app.mail.use_ssl }}"
+MAIL_DEFAULT_SENDER="{{ flask_app.mail.default_sender }}"
+MAIL_RECIPIENT="{{ flask_app.mail.recipient }}"
+    
