@@ -65,14 +65,14 @@ CACHE_SOCKET_TIMEOUT="{{ cache.socket_timeout }}"
 
 
 # user inactive for this period of time will have their rems application closed
-SESSION_TIMEOUT_LIMIT={{ session_check_session_timeout_limit }}
+SESSION_TIMEOUT_LIMIT="{{ session_check_session_timeout_limit }}"
 
 # user active for this period of time will have their rems application closed
-SESSION_TIMEOUT_LIMIT_LONG={{ session_check_session_timeout_limit_long }}
+SESSION_TIMEOUT_LIMIT_LONG="{{ session_check_session_timeout_limit_long }}"
 
 # for now only a warning message is logged that clearing sessions is taking a longer-than-expected
 # amount of time.
-SESSION_CLEANUP_MAX_TIME={{ session_check_session_cleanup_max_time }}
+SESSION_CLEANUP_MAX_TIME="{{ session_check_session_cleanup_max_time }}"
 
 # when user application is closed, this message is entered as reason
 REMS_SESSION_CLOSE_MESSAGE="{{ session_check_rems_session_close_message }}"
@@ -89,3 +89,37 @@ REMS_LOGOUT_MESSAGE="{{ session_check_rems_logout_message }}"
 
 # log file fron "session expiry check" cron job
 CRON_SESSION_EXPIRE_LOG="{{ session_check_cron_session_expire_log }}"
+
+
+### Request restriction configurations
+
+# Sliding windows for request limits
+SHORT_TIMEFRAME="{{ flask_app.short_timeframe }}" 
+LONG_TIMEFRAME="{{ flask_app.long_timeframe }}"
+
+# Maximum amount of requests 
+MAX_AMOUNT_OF_REQUESTS_SHORT_PERIOD="{{ flask_app.max_amount_of_requests_short_period }}"
+MAX_AMOUNT_OF_REQUESTS_LONG_PERIOD="{{ flask_app.max_amount_of_requests_long_period }}"
+
+# these values are meant for including the right requests in counting the number of requests
+EXCLUDE_REQUESTS_WITH_FIELD_PARAM="{{ flask_app.exclude_requests_with_field_param }}"
+INCLUDE_REQUESTS_WITH_FIELD_PARAM="{{ flask_app.include_requests_with_field_param }}"
+INCLUDE_REQUESTS_WITH_QUERY_PARAM="{{ flask_app.include_requests_with_query_param }}"
+EXCLUDE_REQUESTS_WITH_QUERY_PARAM="{{ flask_app.exclude_requests_with_query_param }}"
+
+REQUEST_TIME_DIFFERENCE="{{ flask_app.request_time_difference }}"
+
+# after a notification about exceeded request limit is sent, the next notification can be sent after the time specified here has passed
+LIMIT_FOR_SENDING_NEW_EMAIL="{{ flask_app.limit_for_sending_new_email }}"
+
+MAIL_MAX_EMAILS="{{ flask_app.mail_max_emails }}"
+
+MAIL_SHORT_PERIOD="{{ flask_app.mail.short_period }}"
+MAIL_LONG_PERIOD="{{ flask_app.mail.long_period }}"
+MAIL_SERVER="{{ flask_app.mail.server }}"
+MAIL_PORT="{{ flask_app.mail.port }}"
+MAIL_USE_TLS="{{ flask_app.mail.use_tls }}"
+MAIL_USE_SSL="{{ flask_app.mail.use_ssl }}"
+MAIL_DEFAULT_SENDER="{{ flask_app.mail.default_sender }}"
+MAIL_RECIPIENT="{{ flask_app.mail.recipient }}"
+    

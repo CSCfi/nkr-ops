@@ -52,6 +52,26 @@ flask_app:
     document_unique_id_field:      "{{ secrets.proxyservers.flask_app.document_unique_id_field }}"
     metadata_level_10_resource_id: "{{ secrets.proxyservers.flask_app.metadata_level_10_resource_id }}"
     rems_rejecter_bot_user:        "{{ secrets.proxyservers.flask_app.rems_rejecter_bot_user }}"
+    short_timeframe:               "{{ secrets.proxyservers.flask_app.short_timeframe }}"
+    long_timeframe:                "{{ secrets.proxyservers.flask_app.long_timeframe }}"
+    max_amount_of_requests_short_period: "{{ secrets.proxyservers.flask_app.max_amount_of_requests_short_period }}"
+    max_amount_of_requests_long_period:  "{{ secrets.proxyservers.flask_app.max_amount_of_requests_long_period }}"
+    exclude_requests_with_field_param:   "{{ secrets.proxyservers.flask_app.exclude_requests_with_field_param }}"
+    include_requests_with_field_param:   "{{ secrets.proxyservers.flask_app.include_requests_with_field_param }}"
+    include_requests_with_query_param:   "{{ secrets.proxyservers.flask_app.include_requests_with_query_param }}"
+    exclude_requests_with_query_param:   "{{ secrets.proxyservers.flask_app.exclude_requests_with_query_param }}"
+    request_time_difference: 3
+    limit_for_sending_new_email: 86400
+    mail_max_emails: 1
+    mail:
+        short_period:    "{{ secrets.proxyservers.flask_app.mail.short_period }}"
+        long_period:     "{{ secrets.proxyservers.flask_app.mail.long_period }}"
+        server:          "{{ secrets.proxyservers.flask_app.mail.server }}"
+        port:            "{{ secrets.proxyservers.flask_app.mail.port }}"  
+        use_tls:         "{{ secrets.proxyservers.flask_app.mail.use_tls }}"
+        use_ssl:         "{{ secrets.proxyservers.flask_app.mail.use_ssl }}"
+        default_sender:  "{{ secrets.proxyservers.flask_app.mail.default_sender }}"
+        recipient:       "{{ secrets.proxyservers.flask_app.mail.recipient }}"
 
 
 httpd:
