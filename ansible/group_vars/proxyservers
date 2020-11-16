@@ -9,7 +9,7 @@ nkr_proxy_web_app_config_path: "{{ nkr_proxy_app_base_path }}/config"
 nkr_proxy_web_app_config_file_path: "{{ nkr_proxy_web_app_config_path }}/config.sh"
 
 project_repo: https://github.com/CSCfi/nkr-proxy
-project_repo_branch: test
+project_repo_branch: master
 
 python_virtualenv_path: "{{ nkr_proxy_app_base_path }}/venv"
 gunicorn_socket_file:   "{{ nkr_proxy_app_base_path }}/gunicorn/socket"
