@@ -68,7 +68,7 @@
       - "source .bash_proxy_aliases"
       - "aliases"
 
-  when: deployment_environment_id in ['local_development', 'test', 'stable']
+  when: deployment_environment_id in ['local_development', 'test', 'production']
 
 - name: Install cron job to check and close user sessions
   import_tasks: cron.yml
