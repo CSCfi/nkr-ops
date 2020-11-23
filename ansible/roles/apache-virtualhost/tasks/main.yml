@@ -1,6 +1,7 @@
 ---
 
 - include_role: name=certificates
+  tags: update_certificate
 
 - name: Install passlib as a dependency for htpasswd ansible module
   pip: name=passlib state=latest executable=pip3
@@ -21,6 +22,7 @@
 
 - name: Generate Diffie-Hellman PFS (Perfect Forward Secrecy) group
   command: openssl dhparam -out {{ httpd.ssl_certificates_path }}/{{ httpd.dh_param_name }} 2048 creates={{ httpd.ssl_certificates_path }}/{{ httpd.dh_param_name }}
+  tags: update_certificate
 
 - name: Ensure main httpd.conf loads custom httpd conf from conf.d
   lineinfile:

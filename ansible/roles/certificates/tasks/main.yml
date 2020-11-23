@@ -2,9 +2,11 @@
 
 - name: Create directory for SSL certificates
   file: path={{ httpd.ssl_certificates_path }} state=directory
+  tags: update_certificate
 
 - name: Create self-signed SSL cert and private key
   command: openssl req -x509 -nodes -subj "/C=FI/ST=Uusimaa/L=Espoo/O=CSC/CN={{ httpd.server_domain_name }}" -days 365 -newkey rsa:2048 -keyout {{ httpd.ssl_certificates_path }}/{{ httpd.ssl_key_name }} -out {{ httpd.ssl_certificates_path }}/{{ httpd.ssl_certificate_name }} creates={{ httpd.ssl_certificates_path }}/{{ httpd.ssl_certificate_name }}
+  tags: update_certificate
   when: deployment_environment_id in ['local_development', 'test']
 
 - block:
