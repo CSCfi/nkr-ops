@@ -3,6 +3,9 @@
 - name: Install selinux python3 bindings
   pip: name=selinux state=latest executable=pip3
 
+- name: Copy a pip.conf file to /etc
+  template: src=templates/pip.conf dest=/etc/pip.conf
+
 - name: Make sure we have a 'nkr' group in OS
   group: name=nkr state=present
 
