@@ -1,1 +1,4 @@
 httpd24_conf_root_path: /opt/rh/httpd24/root/etc/httpd
+artifactory_username: "{{ secrets.artifactory_username }}"
+artifactory_password: "{{ secrets.artifactory_password }}"
+artifactory_server:   "{{ secrets.artifactory_server }}"
