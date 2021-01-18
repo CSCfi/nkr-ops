@@ -38,7 +38,7 @@
     repo: 'https://github.com/CSCfi/RecordManager.git'
     version: "{{ harvester.branch }}"
     dest: /usr/local/RecordManager/
-    update: no
+    update: yes
 
 - name: Copy Composer install script into place
   copy:
