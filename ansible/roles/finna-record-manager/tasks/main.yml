@@ -50,13 +50,11 @@
   shell: echo "./install_composer.sh" | scl enable rh-php{{php_version}} -
   args:
     chdir: /usr/local/RecordManager
-    creates: /usr/local/RecordManager/vendor
 
 - name: Install requirements with Software Collections enabled PHP
   shell: echo "./composer.phar update" | scl enable rh-php{{php_version}} -
   args:
     chdir: /usr/local/RecordManager
-    creates: /usr/local/RecordManager/vendor/autoload.php
 
 - name: Ensure MongoDB is running
   service: name=mongod state=started enabled=yes
