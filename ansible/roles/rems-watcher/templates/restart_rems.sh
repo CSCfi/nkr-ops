@@ -1,63 +1,61 @@
 #!/bin/bash
+# This script restarts REMS if it is not running properly
 
-FILE=/var/log/messages
+LOG_FILE=/var/log/messages
 LINEFILE=/tmp/rems_error_track/line-track.txt
-myPath=/tmp/rems_error_track
+ERROR='^(?=.*org.apache.lucene.index.IndexNotFoundException)(?=.*no segments)'
 
-# This script restarts rems if it is not running properly
 # Check that the messages file exists
 # If the messages file exists but no line-track.txt file exists, create the file with the line number of the latest error msg and length of the messages file
-if [ -r "$FILE" ] && [ ! -f /tmp/rems_error_track/line-track.txt ]
+if [ -r "$LOG_FILE" ] && [ ! -f "$LINEFILE" ]
 then
-        latestError=$(grep -n -P '^(?=.*org.apache.lucene.index.IndexNotFoundException)(?=.*no segments)' "$FILE" | tail -n1 | cut -d: -f1)
-        fileLength=$(wc -l < "$FILE")
+        lastErrorLine=$(grep -n -P "$ERROR" "$LOG_FILE" | tail -n1 | cut -d: -f1)
+        fileLength=$(wc -l < "$LOG_FILE")
         if [ $latestError > 0 ]
         then
-            lineAndFileLength=$latestError" "$fileLength
-            echo $lineAndFileLength >${myPath}/line-track.txt
+            lineAndFileLength=$lastErrorLine" "$fileLength
+            echo $lineAndFileLength >$LINEFILE
             systemctl restart rems
         else
-            latestError=0
-            lineAndFileLength=$latestError" "$fileLength
-            echo $lineAndFileLength >${myPath}/line-track.txt
+            lastErrorLine=0
+            lineAndFileLength=$lastErrorLine" "$fileLength
+            echo $lineAndFileLength >$LINEFILE
         fi
 # If the line-track.txt exists, update its content with the latest error line number
 else
-        fileLength=$(wc -l < "$FILE")
-        lines=$( awk '{print $2}' /tmp/rems_error_track/line-track.txt )
-        latestError=$(grep -n -P '^(?=.*org.apache.lucene.index.IndexNotFoundException)(?=.*no segments)' "$FILE" | tail -n1 | cut -d: -f1)
+        fileLength=$(wc -l < "$LOG_FILE")
+        oldFileLength=$( awk '{print $2}' "$LINEFILE" )
+        lastErrorLine=$(grep -n -P "$ERROR" "$LOG_FILE" | tail -n1 | cut -d: -f1)
         # If the messages file has less lines that the number stored in line-track.txt, update error line number and file length
-        if [ $fileLength -lt $lines ]
+        if [ $fileLength -lt $oldFileLength ]
         then
-            if [ $latestError > 0 ]
+            if [ $lastErrorLine > 0 ]
             then
-                lineAndFileLength=$latestError" "$fileLength
-                echo $lineAndFileLength >${myPath}/line-track.txt
+                lineAndFileLength=$lastErrorLine" "$fileLength
+                echo $lineAndFileLength >$LINEFILE
                 systemctl restart rems
 
             else
-                latestError=0
-                lineAndFileLength=$latestError" "$fileLength
-                echo $lineAndFileLength >${myPath}/line-track.txt
+                lastErrorLine=0
+                lineAndFileLength=$lastErrorLine" "$fileLength
+                echo $lineAndFileLength >$LINEFILE
                 # Do not restart rems here, error line is empty and only file length is stored
             fi
 
         else
-            lineNumber=$( awk '{print $1}' /tmp/rems_error_track/line-track.txt )
-            lines=$( awk '{print $2}' /tmp/rems_error_track/line-track.txt )
-            latestError=$(grep -n -P '^(?=.*org.apache.lucene.index.IndexNotFoundException)(?=.*no segments)' "$FILE" | tail -n1 | cut -d: -f1)
-            fileLength=$(wc -l < "$FILE")
+            oldErrorLine=$( awk '{print $1}' "$LINEFILE" )
+            lastErrorLine=$(grep -n -P "$ERROR" "$LOG_FILE" | tail -n1 | cut -d: -f1)
+            fileLength=$(wc -l < "$LOG_FILE")
             # line number in line-track.txt file is less than latest error if there is a new error line after it
-            if [ $lineNumber -lt $latestError ]
+            if [ $oldErrorLine -lt $lastErrorLine ]
             then
-                updatedLineNumber=$latestError
+                updatedLineNumber=$lastErrorLine
                 lineAndFileLength=$updatedLineNumber" "$fileLength
-                echo $lineAndFileLength >${myPath}/line-track.txt
+                echo $lineAndFileLength >$LINEFILE
                 systemctl restart rems
             else
-                updatedLineNumber=$lineNumber
-                lineAndFileLength=$updatedLineNumber" "$fileLength
-                echo $lineAndFileLength >${myPath}/line-track.txt
+                lineAndFileLength=$oldErrorLine" "$fileLength
+                echo $lineAndFileLength >$LINEFILE
                 # No need to restart, no new error lines found
             fi
         fi
