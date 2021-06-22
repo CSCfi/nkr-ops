@@ -108,6 +108,15 @@
   args:
     chdir: /usr/local/RecordManager        
 
+- name: Install manual harvesting helper scripts
+  copy:
+    src: "{{ item }}"
+    dest: /usr/local/RecordManager/
+  with_items:
+    - harvest_scripts/empty_harvest_source.sh
+    - harvest_scripts/reharvest.sh
+  when: deployment_environment_id in ['local_development', 'test', 'pentest']
+
 - block:
 
     - name: Test importing with test EAD xml and print output
