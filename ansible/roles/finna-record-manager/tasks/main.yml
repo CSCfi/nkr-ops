@@ -52,7 +52,7 @@
     chdir: /usr/local/RecordManager
 
 - name: Install requirements with Software Collections enabled PHP
-  shell: echo "./composer.phar update" | scl enable rh-php{{php_version}} -
+  shell: echo "./composer.phar install" | scl enable rh-php{{php_version}} -
   args:
     chdir: /usr/local/RecordManager
 
