@@ -120,7 +120,7 @@
 - block:
 
     - name: Test importing with test EAD xml and print output
-      shell: echo "php import.php --file=/shared/ansible/roles/finna-record-manager/files/test_xmls/julkinen-ead.xml --source=local_ead" | scl enable rh-php{{php_version}} -
+      shell: echo "php import.php --file=/shared/ansible/roles/finna-record-manager/files/test_xmls/julkinen-ead.xml --source=local_ead" --verbose| scl enable rh-php{{php_version}} -
       args:
         chdir: /usr/local/RecordManager
       register: ps
@@ -128,13 +128,28 @@
     - debug: var=ps.stdout_lines
     
     - name: Test updating the Solr index print output
-      shell: echo "php manage.php --func=updatesolr" | scl enable rh-php{{php_version}} -
+      shell: echo "php manage.php --func=updatesolr" --source=local_ead | scl enable rh-php{{php_version}} -
       args:
         chdir: /usr/local/RecordManager
       register: ps2
 
     - debug: var=ps2.stdout_lines
 
+    - name: Clean Solr after test
+      shell: echo "php manage.php --func=deletesolr" --source=local_ead | scl enable rh-php{{php_version}} -
+      args:
+        chdir: /usr/local/RecordManager
+      register: ps3
+
+    - debug: var=ps3.stdout_lines
+
+    - name: Clean test EAD after test
+      shell: echo "php manage.php --func=deletesource" --source=local_ead | scl enable rh-php{{php_version}} -
+      args:
+        chdir: /usr/local/RecordManager
+      register: ps4
+
+    - debug: var=ps4.stdout_lines
 
     - name: Set log file permissions for developer CLI usage
       file:
