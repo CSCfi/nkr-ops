@@ -25,3 +25,5 @@ harvester:
         url_restricted: "{{ secrets.harvesterservers.datasource.url_restricted }}"
         username:       "{{ secrets.harvesterservers.datasource.username }}"
         password:       "{{ secrets.harvesterservers.datasource.password }}"
+        set_public:     "{{ secrets.harvesterservers.datasource.set_public }}"
+        set_restricted: "{{ secrets.harvesterservers.datasource.set_restricted }}"
