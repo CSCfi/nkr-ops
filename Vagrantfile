@@ -18,6 +18,13 @@ if [ ! -f /vagrant_bootstrap_done.info ]; then
 fi
 SCRIPT
 
+# The following runs on the guest when `vagrant destroy` is commanded, but
+# _before_ the user answers the yes/no question about destroying.
+$teardown = <<SCRIPT
+rm -rf /shared/ansible/roles/ansible-zookeeper
+rm -rf /shared/ansible/roles/ansible-role-java
+SCRIPT
+
 
 required_plugins = %w( vagrant-vbguest )
 required_plugins.each do |plugin|
@@ -42,6 +49,13 @@ Vagrant.configure("2") do |config|
         vbox.gui = false
         vbox.memory = 2048
         vbox.customize ["modifyvm", :id, "--nictype1", "virtio"]
+    end
+
+    server.trigger.before :destroy do |trigger|
+      trigger.warn = "Deleting roles ansible-zookeeper and ansible-role-java... " +
+                     "If you choose not to destroy the VM, you need to re-install them " +
+                     "by running /shared/ansible/install_requirements.sh`"
+      trigger.run_remote = {inline: $teardown}
     end
   end
 end
