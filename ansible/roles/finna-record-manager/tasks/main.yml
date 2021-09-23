@@ -119,8 +119,13 @@
 
 - block:
 
+    - name: Copy RecordManager test file to development machine
+      copy:
+        src: test_xmls/julkinen-ead.xml
+        dest: /usr/local/RecordManager/julkinen-ead.xml
+
     - name: Test importing with test EAD xml and print output
-      shell: echo "php import.php --file=/shared/ansible/roles/finna-record-manager/files/test_xmls/julkinen-ead.xml --source=local_ead" --verbose| scl enable rh-php{{php_version}} -
+      shell: echo "php import.php --file=/usr/local/RecordManager/julkinen-ead.xml --source=local_ead" --verbose| scl enable rh-php{{php_version}} -
       args:
         chdir: /usr/local/RecordManager
       register: ps
