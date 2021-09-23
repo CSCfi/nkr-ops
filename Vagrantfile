@@ -12,10 +12,18 @@ set -e
 if [ ! -f /vagrant_bootstrap_done.info ]; then
   sudo yum -y update
   sudo yum -y install epel-release libffi-devel openssl-devel git python3-3.6.8 python3-devel-3.6.8
-  pip3 install ansible
+  python3 -m pip install --upgrade pip
+  python3 -m pip install ansible
   su --login -c 'cd /shared/ansible && source install_requirements.sh && ansible-playbook site_provision.yml -e @./secrets/local_development.yml' vagrant
   sudo touch /vagrant_bootstrap_done.info
 fi
+SCRIPT
+
+# The following runs on the guest when `vagrant destroy` is commanded, but
+# _before_ the user answers the yes/no question about destroying.
+$teardown = <<SCRIPT
+rm -rf /shared/ansible/roles/ansible-zookeeper
+rm -rf /shared/ansible/roles/ansible-role-java
 SCRIPT
 
 
@@ -42,6 +50,13 @@ Vagrant.configure("2") do |config|
         vbox.gui = false
         vbox.memory = 2048
         vbox.customize ["modifyvm", :id, "--nictype1", "virtio"]
+    end
+
+    server.trigger.before :destroy do |trigger|
+      trigger.warn = "Deleting roles ansible-zookeeper and ansible-role-java... " +
+                     "If you choose not to destroy the VM, you need to re-install them " +
+                     "by running /shared/ansible/install_requirements.sh`"
+      trigger.run_remote = {inline: $teardown}
     end
   end
 end
