@@ -126,6 +126,7 @@
       register: ps
 
     - debug: var=ps.stdout_lines
+    - debug: var=ps.stderr_lines
     
     - name: Test updating the Solr index print output
       shell: echo "php manage.php --func=updatesolr" --source=local_ead | scl enable rh-php{{php_version}} -
@@ -134,6 +135,7 @@
       register: ps2
 
     - debug: var=ps2.stdout_lines
+    - debug: var=ps2.stderr_lines
 
     - name: Clean Solr after test
       shell: echo "php manage.php --func=deletesolr" --source=local_ead | scl enable rh-php{{php_version}} -
@@ -142,6 +144,7 @@
       register: ps3
 
     - debug: var=ps3.stdout_lines
+    - debug: var=ps3.stderr_lines
 
     - name: Clean test EAD after test
       shell: echo "php manage.php --func=deletesource" --source=local_ead | scl enable rh-php{{php_version}} -
@@ -150,6 +153,7 @@
       register: ps4
 
     - debug: var=ps4.stdout_lines
+    - debug: var=ps4.stderr_lines
 
     - name: Set log file permissions for developer CLI usage
       file:
