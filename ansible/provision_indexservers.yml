@@ -3,6 +3,7 @@
 - hosts: indexservers
   become: yes
   roles:
+    - { role: preprovision, when: "deployment_environment_id == 'local_development'" }
     - os-base
     - apache
     - ansible-role-java
