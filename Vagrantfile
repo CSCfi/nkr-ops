@@ -13,7 +13,7 @@ if [ ! -f /vagrant_bootstrap_done.info ]; then
   sudo yum -y update
   sudo yum -y install epel-release libffi-devel openssl-devel git python3-3.6.8 python3-devel-3.6.8
   python3 -m pip install --upgrade pip
-  python3 -m pip install ansible
+  python3 -m pip install ansible==2.9
   su --login -c 'cd /shared/ansible && source install_requirements.sh && ansible-playbook site_provision.yml -e @./secrets/local_development.yml' vagrant
   sudo touch /vagrant_bootstrap_done.info
 fi
