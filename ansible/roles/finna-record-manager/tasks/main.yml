@@ -163,8 +163,8 @@
     - name: Set log file permissions for developer CLI usage
       file:
         path: /var/log/recman.log
-        owner: vagrant
-        group: vagrant
+        owner: "{{ dev_user }}"
+        group: "{{ dev_user }}"
 
     - name: Copy bash aliases to {{ nkr_user }} user home dir
       template: src=templates/bash_harvester_aliases dest=/home/{{ nkr_user }}/.bash_harvester_aliases owner={{ nkr_user }} group={{ nkr_user }}
