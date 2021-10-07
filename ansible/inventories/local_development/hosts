@@ -1,14 +1,14 @@
 [indexservers]
-nkr-index-local ansible_host="{{ server_ip }}" ansible_connection=local ansible_user=vagrant
+nkr-index-local ansible_host="{{ server_ip }}" ansible_connection="{{ dev_connection }}" ansible_user="{{ dev_user }}"
 
 [proxyservers]
-nkr-proxy-local ansible_host="{{ server_ip }}" ansible_connection=local ansible_user=vagrant
+nkr-proxy-local ansible_host="{{ server_ip }}" ansible_connection="{{ dev_connection }}" ansible_user="{{ dev_user }}"
 
 [harvesterservers]
-nkr-harvester-local ansible_host="{{ server_ip }}" ansible_connection=local ansible_user=vagrant
+nkr-harvester-local ansible_host="{{ server_ip }}" ansible_connection="{{ dev_connection }}" ansible_user="{{ dev_user }}"
 
 [distincthosts]
-nkr-local-1 ansible_host="{{ server_ip }}" ansible_connection=local ansible_user=vagrant
+nkr-local-1 ansible_host="{{ server_ip }}" ansible_connection="{{ dev_connection }}" ansible_user="{{ dev_user }}"
 
 [local_development:children]
 indexservers

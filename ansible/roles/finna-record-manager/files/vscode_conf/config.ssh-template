@@ -2,4 +2,4 @@
 Host nkr-index.csc.local
   HostName nkr-index.csc.local
   IdentityFile /path/to/your/"vagrant root"/.vagrant/machines/nkr_local_dev_env/virtualbox/private_key
-  User vagrant
+  User {{ dev_user }}
