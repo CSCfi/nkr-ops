@@ -1,0 +1,8 @@
+---
+- hosts: indexservers
+  become: yes
+  become_user: root
+  roles:
+    - preprovision
+  vars:
+    - ansible_python_interpreter: /usr/bin/python
