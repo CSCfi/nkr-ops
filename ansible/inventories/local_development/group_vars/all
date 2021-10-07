@@ -1,3 +1,4 @@
-server_ip: 127.0.0.1
+server_ip: "{{ secrets.devserver_ip }}"
 deployment_environment_id: local_development
-dev_user: vagrant
+dev_user: "{{ secrets.devserver_user }}"
+dev_connection: "{{ secrets.devserver_connection }}"
