@@ -1,27 +1,31 @@
 
 # nkr-ops
 
-Ansible-scripts to deploy NKR index to remote machines and local development
-(Vagrant or Pouta).
+Ansible-scripts to deploy NKR back end components to remote machines or a
+local or remote development environment.
 
-In case python3 is not yet installed on managed nodes, consider using [this
+In testing/production, the components are deployed on separate servers.
+For development, all the components are deployed on the same machine (local
+virtual machine or remote server).
+
+In case Python 3 is not yet installed on managed nodes, consider using [this
 playbook](https://github.com/CSCfi/ansible-provision-python3) for provisioning
 python3 first.
 
-## Local development with Vagrant
+## Local development environment with Vagrant
 
 After cloning this repo, you need to get the project secrets and edit
 `ansible/secrets/local_development.yml` accordingly. After that you can run the
 following to create and connect to the development VM.
 
-```
+```bash
 vagrant up
 vagrant ssh
 ```
 
 Edit your local `/etc/hosts` file to add:
 
-```
+```bash
 30.30.30.30 nkr-index.csc.local
 30.30.30.30 nkr-proxy.csc.local
 ```
@@ -29,14 +33,14 @@ Edit your local `/etc/hosts` file to add:
 Then, solr ui at: nkr-index.csc.local
 And authz proxy at: nkr-proxy.csc.local
 
-## Local development with Pouta
+## Development on a remote server
 
 After cloning the repo, work in the `ansible/` directory.
 
 First, edit `secrets/local_development.yml` and change the following:
 
 ```yml
-devserver_ip: <public IP of your Pouta instance>
+devserver_ip: <public IP of your development server>
 devserver_user: cloud-user
 devserver_connection: ssh
 ```
