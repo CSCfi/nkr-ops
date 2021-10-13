@@ -1,5 +1,9 @@
 ---
 
+- name: Preprovision remote dev server
+  import_playbook: preprovision_devserver.yml
+  when: "deployment_environment_id == 'local_development'"
+
 - import_playbook: provision_indexservers.yml
 - import_playbook: provision_harvesterservers.yml
 - import_playbook: provision_proxyservers.yml
