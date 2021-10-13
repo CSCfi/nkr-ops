@@ -6,7 +6,7 @@
     state: latest
     update_cache: yes
 
-- name: Install stuff from Yum
+- name: Install some basic packages from Yum
   yum:
     name:
       - epel-release
