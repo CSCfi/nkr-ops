@@ -26,8 +26,8 @@ vagrant ssh
 Edit your local `/etc/hosts` file to add:
 
 ```bash
-30.30.30.30 nkr-index.csc.local
-30.30.30.30 nkr-proxy.csc.local
+10.30.30.30 nkr-index.csc.local
+10.30.30.30 nkr-proxy.csc.local
 ```
 
 Then, solr ui at: nkr-index.csc.local
