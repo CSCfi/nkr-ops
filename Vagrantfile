@@ -35,7 +35,8 @@ end
 Vagrant.configure("2") do |config|
   config.vm.define "nkr_local_dev_env" do |server|
     server.vm.box = "centos/7"
-    server.vm.network :private_network, ip: "30.30.30.30"
+    server.vbguest.installer_options = { allow_kernel_upgrade: true }
+    server.vm.network :private_network, ip: "10.30.30.30"
 
     # Basic VM synced folder mount
     server.vm.synced_folder "./ansible", "/shared/ansible", :mount_options => ["dmode=775,fmode=775"]

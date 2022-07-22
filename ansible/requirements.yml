@@ -3,4 +3,4 @@
 - src: https://github.com/cscfi/ansible-role-java
   version: d85609676d5d170f8d912bd1def9443ff60683a8
 - src: https://github.com/cscfi/ansible-zookeeper
-  version: f1995940aee5a14117f506b8cba7403e1e14cf9a
+  version: 07c94c5e6b038af134a5d4a0e3422f0e9c9bbe34
