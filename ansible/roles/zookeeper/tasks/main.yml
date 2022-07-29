@@ -19,5 +19,5 @@
     }
 
 - name: Start zookeeper service
-  service: name=zookeeper state=restarted
+  systemd: name=zookeeper state=restarted daemon_reload=yes
   tags: deploy
