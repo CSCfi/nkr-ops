@@ -18,6 +18,15 @@
       "JAVA_HOME": "{{ ansible_local['java']['general']['home'] }}"
     }
 
+- name: Add setting fixing zookeeper update issue
+  lineinfile:
+    dest: "{{ zookeeper_dir }}/conf/zoo.cfg"
+    insertafter: "maxClientCnxns=.*"
+    line: "snapshot.trust.empty=true"
+    state: present
+  vars:
+    zookeeper_dir: "/opt/zookeeper-{{ zookeeper.version }}"
+
 - name: Start zookeeper service
   systemd: name=zookeeper state=restarted daemon_reload=yes
   tags: deploy
