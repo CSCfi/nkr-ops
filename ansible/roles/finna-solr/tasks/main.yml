@@ -161,7 +161,7 @@
       uri:
         url: 'http://localhost:{{ solr.port }}/solr/admin/collections?action=CREATE&name=biblio&numShards=3&replicationFactor=1&collection.configName=biblio'
       register: solr_response_cr
-      failed_when: solr_response_cr.status != 200 and "collection already exists" not in solr_response_cr.content
+      failed_when: solr_response_cr.status != 200 and "collection already exists" not in solr_response_cr.json.error.msg
 
     - name: Reload Solr configuration
       uri:
